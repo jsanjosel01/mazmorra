@@ -1,4 +1,4 @@
-package proyecto.modelos;
+package com.julia.modelos;
 
 /**
  * Representa una posición bidimensional en un tablero o mapa.

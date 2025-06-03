@@ -1,5 +1,4 @@
-package proyecto.modelos;
-
+package com.julia.modelos;
 /**
  * Representa un héroe controlado por el jugador en el juego.
  * Hereda de {@link Personaje} y puede ganar experiencia y moverse según una dirección.

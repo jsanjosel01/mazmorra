@@ -1,4 +1,4 @@
-package proyecto.modelos;
+package com.julia.modelos;
 
 /**
  * Enum que define los tipos posibles de celdas en el mapa del juego.

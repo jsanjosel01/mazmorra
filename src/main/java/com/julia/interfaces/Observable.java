@@ -1,4 +1,4 @@
-package interfaces;
+package com.julia.interfaces;
 
 public interface Observable{
     void agregarObservador(Observador o);

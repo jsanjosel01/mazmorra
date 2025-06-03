@@ -1,9 +1,10 @@
-package proyecto.modelos;
+package com.julia.modelos;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import interfaces.Observador;
+import com.julia.modelos.Personaje;
+import com.julia.modelos.Mapa;
+import com.julia.interfaces.Observador;
 
 
 public class GestorPersonajes{

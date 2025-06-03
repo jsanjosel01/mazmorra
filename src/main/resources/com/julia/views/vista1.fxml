@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="397.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto.controllador.vista1Controller">
+<AnchorPane fx:id="root" prefHeight="397.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.julia.controllador.vista1Controller">
    <children>
       <ImageView fitHeight="516.0" fitWidth="607.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../imagenes/Celda.png" />
+            <Image url="@../imagenes/imagenes/Celda.png" />
          </image>
       </ImageView>
       <Label layoutX="245.0" layoutY="63.0" text="CREA TU PERSONAJE" textAlignment="CENTER" textFill="WHITE">
@@ -28,7 +28,7 @@
             <Font name="Berlin Sans FB Demi Bold" size="14.0" />
          </font>
       </Label>
-      <TextField layoutX="289.0" layoutY="93.0" opacity="0.8" prefHeight="29.0" prefWidth="162.0" style="-fx-background-color: white; -fx-border-color: #ccb216;" />
+      <TextField fx:id="nombreField" layoutX="289.0" layoutY="93.0" opacity="0.8" prefHeight="29.0" prefWidth="162.0" style="-fx-background-color: white; -fx-border-color: #ccb216;" />
       <Label layoutX="184.0" layoutY="151.0" text="DEFENSA:" textFill="WHITE">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="14.0" />
@@ -49,11 +49,11 @@
             <Font name="Berlin Sans FB Demi Bold" size="14.0" />
          </font>
       </Label>
-      <Slider layoutX="301.0" layoutY="151.0" opacity="0.8" style="-fx-border-color: blue;" />
-      <Slider layoutX="301.0" layoutY="195.0" opacity="0.8" style="-fx-border-color: blue;" />
-      <Slider layoutX="301.0" layoutY="238.0" opacity="0.8" style="-fx-border-color: blue;" />
-      <Slider layoutX="301.0" layoutY="282.0" opacity="0.8" style="-fx-border-color: blue;" />
-      <Button alignment="CENTER" cache="true" layoutX="263.0" layoutY="326.0" mnemonicParsing="false" opacity="0.95" prefHeight="38.0" prefWidth="97.0" style="-fx-background-color: #ccb216;" text="START" textAlignment="CENTER">
+      <Slider fx:id="defensaSlider" layoutX="301.0" layoutY="151.0" opacity="0.8" style="-fx-border-color: blue;" />
+      <Slider fx:id="velocidadSlider" layoutX="301.0" layoutY="195.0" opacity="0.8" style="-fx-border-color: blue;" />
+      <Slider fx:id="ataqueSlider" layoutX="301.0" layoutY="238.0" opacity="0.8" style="-fx-border-color: blue;" />
+      <Slider fx:id="fuerzaSlider" layoutX="301.0" layoutY="282.0" opacity="0.8" style="-fx-border-color: blue;" />
+      <Button fx:id="startButton" alignment="CENTER" cache="true" layoutX="263.0" layoutY="326.0" mnemonicParsing="false" opacity="0.95" prefHeight="38.0" prefWidth="97.0" style="-fx-background-color: #ccb216;" text="START" textAlignment="CENTER">
          <font>
             <Font name="Berlin Sans FB Bold" size="18.0" />
          </font>

@@ -1,4 +1,4 @@
-package proyecto.modelos;
+package com.julia.modelos;
 
 /**
  * Representa una celda en un tablero, la cual puede ser transitable o no,

@@ -1,4 +1,4 @@
-package proyecto.modelos;
+package com.julia.modelos;
 
 /**
  * Representa un enemigo en el juego, que hereda de la clase {@link Personaje}.

@@ -1,10 +1,10 @@
-package proyecto.modelos;
+package com.julia.modelos;
 
 import java.util.List;
 import java.util.Objects;
 
-import interfaces.Observador;
-import interfaces.Observable;
+import com.julia.interfaces.Observador;
+import com.julia.interfaces.Observable;
 
 /**
  * Clase abstracta que representa un personaje en el juego.

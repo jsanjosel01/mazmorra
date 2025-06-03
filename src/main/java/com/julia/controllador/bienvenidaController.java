@@ -1,64 +1,38 @@
-package proyecto.controllador;
+package com.julia.controllador;
 
-import java.io.IOException;
-
+import com.julia.SceneId;
+import com.julia.SceneManager;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import proyecto.App;
-import proyecto.modelos.SceneId;
-import proyecto.modelos.SceneManager;
 
+/**
+ * Controlador de la vista de bienvenida.
+ * Muestra la pantalla inicial y gestiona el cambio a la siguiente vista cuando el usuario pulsa "Empezar".
+ */
 public class bienvenidaController {
-     @FXML
-    private AnchorPane ancho;
 
+    /** Botón para comenzar el juego y pasar a la siguiente vista. */
     @FXML
     private Button btnEmpezar;
 
+    /** Panel raíz de la vista de bienvenida, utilizado para establecer el fondo. */
     @FXML
-    private void initialize() {
-        // Ruta relativa a resources
+    private AnchorPane ancho;
+
+    /**
+     * Inicializa la vista de bienvenida.
+     * Establece la imagen de fondo y configura el evento del botón para cambiar de escena.
+     */
+    @FXML
+    public void initialize() {
         String rutaImg = "/proyecto/imagenes/bienvenido.jpg";
-
-        // Establecer imagen de fondo usando CSS inline
         ancho.setStyle("-fx-background-image: url('" + getClass().getResource(rutaImg) + "'); " +
-                       "-fx-background-size: cover; " +
-                       "-fx-background-position: center center;");
+                       "-fx-background-size: cover; -fx-background-position: center center;");
 
-        // Acción del botón
         btnEmpezar.setOnAction(event -> {
-            // Cambia a la vista llamada VISTA1 usando el SceneManager
+            // Cambia a la siguiente vista usando el SceneManager
             SceneManager.getInstance().loadScene(SceneId.VISTA1);
         });
-    }
-
-
-    @FXML
-    private void onBtnEmpezarClicked() {
-        // Cambiar a la escena de vista1.fxml
-        cambiarEscena("vista1.fxml");
-    }
-
-    private void cambiarEscena(String rutaFXML) {
-        try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("views/" + rutaFXML));
-            Parent root = loader.load();
-
-            // Obtener la ventana actual
-            Stage stage = (Stage) ancho.getScene().getWindow();
-            Scene nuevaEscena = new Scene(root);
-
-            stage.setScene(nuevaEscena);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Error al cargar la vista: " + rutaFXML);
-        }
     }
 }

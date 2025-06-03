@@ -1,4 +1,4 @@
-package proyecto.controllador;
+package com.julia.controllador;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -6,9 +6,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import proyecto.App;
-import proyecto.modelos.Heroe;
-import proyecto.modelos.Posicion;
+import com.julia.App;
+import com.julia.modelos.Heroe;
+import com.julia.modelos.Posicion;
+import com.julia.modelos.Proveedor;
 
 public class vista1Controller {
 
@@ -36,6 +37,8 @@ public class vista1Controller {
         velocidadSlider.setValue(5);
         ataqueSlider.setValue(5);
         fuerzaSlider.setValue(5);
+
+        startButton.setOnAction(event -> onStartClicked());
     }
 
     @FXML
@@ -63,8 +66,8 @@ public class vista1Controller {
         heroe.setAtaque((int) ataque);
         heroe.setFuerza((int) fuerza);
 
-        //Guardar el héroe en App
-        App.setHeroe(heroe);
+        //Guardar el héroe en el proveedor
+        Proveedor.getInstance().setHeroe(heroe);
 
         //Cambiar a la segunda vista
         try {

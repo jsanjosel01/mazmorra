@@ -1,4 +1,4 @@
-package proyecto.modelos;
+package com.julia.modelos;
 
 /**
  * Enum que representa las posibles direcciones en un tablero o mapa.

@@ -1,12 +1,12 @@
-package proyecto.modelos;
+package com.julia.modelos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import interfaces.Observador;
-import interfaces.Observable;
+import com.julia.interfaces.Observador;
+import com.julia.interfaces.Observable;
 
 /**
  * Representa el mapa del juego, el cual contiene celdas, personajes y lógica de movimiento.

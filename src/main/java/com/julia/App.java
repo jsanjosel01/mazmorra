@@ -5,34 +5,46 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 /**
- * JavaFX App
+ * JavaFX App principal
  */
 public class App extends Application {
 
-    private static Scene scene;
+    // Instancia del SceneManager
+    private static SceneManager sceneManager;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
-        stage.setScene(scene);
+        // Inicializa el SceneManager (singleton)
+        sceneManager = SceneManager.getInstance();
+
+        // Registra las escenas principales
+        sceneManager.setScene(SceneId.BIENVENIDA, "bienvenida");
+        sceneManager.setScene(SceneId.VISTA1, "vista1");
+        //sceneManager.setScene(SceneId.VISTA2, "vista2");
+        // Puedes agregar más escenas según tu proyecto
+
+        // Inicializa el SceneManager con el Stage principal
+        sceneManager.init(stage);
+
+        // Carga la escena de bienvenida al iniciar
+        sceneManager.loadScene(SceneId.BIENVENIDA);
+
+        // Configura el título de la ventana
+        stage.setTitle("Videojuego Mazmorras");
         stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
-
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
+    /**
+     * Método estático para cambiar la raíz de la escena principal
+     */
+    public static void setRoot(String fxml) throws IOException {
+        sceneManager.loadScene(SceneId.valueOf(fxml.toUpperCase()));
     }
 
     public static void main(String[] args) {
         launch();
     }
-
 }

@@ -1,4 +1,4 @@
-package proyecto.modelos;
+package com.julia.modelos;
 
 import java.util.Map;
 

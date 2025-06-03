@@ -1,4 +1,4 @@
-package proyecto.modelos;
+package com.julia;
 /**
  * Enum que identifica las diferentes vistas o escenas de la aplicación.
  * <ul>
