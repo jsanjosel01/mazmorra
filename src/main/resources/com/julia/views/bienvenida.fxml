@@ -24,7 +24,7 @@
                 <Font name="Berlin Sans FB Demi Bold" size="13.0" />
             </font>
         </Label>
-        <Button fx:id="btnEmpezar" layoutX="699.0" layoutY="317.0" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: #ccb216;" text=" Play now!" textAlignment="CENTER">
+        <Button fx:id="btnEmpezar" layoutX="429.0" layoutY="301.0" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: #ccb216;" text=" Play now!" textAlignment="CENTER">
             <font>
                 <Font name="Berlin Sans FB Demi Bold" size="18.0" />
             </font>
