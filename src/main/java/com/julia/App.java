@@ -23,7 +23,7 @@ public class App extends Application {
         // Registra las escenas principales
         sceneManager.setScene(SceneId.BIENVENIDA, "bienvenida");
         sceneManager.setScene(SceneId.VISTA1, "vista1");
-        //sceneManager.setScene(SceneId.VISTA2, "vista2");
+        sceneManager.setScene(SceneId.VISTA2, "vista2");
         // Puedes agregar más escenas según tu proyecto
 
         // Inicializa el SceneManager con el Stage principal

@@ -20,7 +20,7 @@ public class Mapa implements Observable {
     private Heroe heroe;
     private List<Observador> observadores;
 
-    public Mapa(int ancho, int alto){
+    public Mapa(){
         this.ancho = ancho;
         this.alto = alto;
         this.celdas = new Celda[alto][ancho];

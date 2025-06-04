@@ -4,9 +4,11 @@ public class Proveedor {
   private static Proveedor instance;
   private GestorPersonajes gestorPersonajes;
   private Heroe heroe;
+  private Mapa mapa;
 
   private Proveedor() {
     this.gestorPersonajes = new GestorPersonajes();
+    this.mapa = new Mapa();
   }
 
   public static Proveedor getInstance() {
@@ -31,5 +33,15 @@ public class Proveedor {
   public void setHeroe(Heroe heroe) {
     this.heroe = heroe;
   }
+
+  //Getters y setters Mapa
+   public Mapa getMapa() {
+    return this.mapa;
+  }
+
+  public void setMapa(Mapa mapa) {
+    this.mapa = mapa;
+  }
+
 
 }
