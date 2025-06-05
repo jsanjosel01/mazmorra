@@ -32,12 +32,17 @@ public class vista2Controller implements Observador {
     private Image imgHeroeLeft;
     private Image imgHeroeRight;
 
+    private Image imgEnemigoup;
+    private Image imgEnemigoDown;
+    private Image imgEnemigoLeft;
+    private Image imgEnemigoRight;
+
     @FXML
     public void initialize() {
         mapa = Proveedor.getInstance().getMapa();
         heroe = Proveedor.getInstance().getHeroe();
 
-        if (mapa == null || heroe == null || grid == null) {
+        if (mapa == null || heroe == null) {
             System.err.println("No están disponibles...");
         }
 
@@ -54,9 +59,10 @@ public class vista2Controller implements Observador {
         tablero.setFocusTraversable(true);
         tablero.requestFocus();
 
+       
         pintarEscenario();
+       
         //actualizarVista();
-
     }
 
     public void pintarEscenario() {
@@ -86,11 +92,17 @@ public class vista2Controller implements Observador {
             imgHeroeDown = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1Delante.png"));
             imgHeroeLeft = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1izq.png"));
             imgHeroeRight = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1derech.png"));
+
+             // Carga la imagen del enemigo
+            imgEnemigoup = new Image(App.class.getResourceAsStream("imagenes/imagenes/g1Espalda.png"));
+            imgEnemigoDown = new Image(App.class.getResourceAsStream("imagenes/imagenes/g3Delante.png"));
+            imgEnemigoLeft = new Image(App.class.getResourceAsStream("imagenes/imagenes/g2izq.png"));
+            imgEnemigoRight = new Image(App.class.getResourceAsStream("imagenes/imagenes/g4derech.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+ 
     // Configurar el grid
     private void configurarGrid() {
         grid = new GridPane();
