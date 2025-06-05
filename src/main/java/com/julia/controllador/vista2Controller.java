@@ -1,5 +1,6 @@
 package com.julia.controllador;
 
+import com.julia.App;
 import com.julia.interfaces.Observador;
 import com.julia.modelos.*;
 
@@ -35,17 +36,15 @@ public class vista2Controller implements Observador {
     public void initialize() {
         mapa = Proveedor.getInstance().getMapa();
         heroe = Proveedor.getInstance().getHeroe();
-        
 
         if (mapa == null || heroe == null || grid == null) {
             System.err.println("No están disponibles...");
-            return;
         }
 
         cargarImagenes();
 
         mapa.agregarObservador(this);
-        heroe.agregarObservador(this);
+        //heroe.agregarObservador(this);
 
         configurarGrid();
         configurarPanelEstadisticas();
@@ -55,20 +54,44 @@ public class vista2Controller implements Observador {
         tablero.setFocusTraversable(true);
         tablero.requestFocus();
 
-        actualizarVista();
+        pintarEscenario();
+        //actualizarVista();
+
     }
 
-    //ruta de las imagenes
+    public void pintarEscenario() {
+        mapa = Proveedor.getInstance().getMapa();
+        // acceder a la matriz, y recorrerla.
+
+        for (int i = 0; i < mapa.getAlto(); i++) {
+            for (int j = 0; j < mapa.getAncho(); j++) {
+                if (mapa.getCelda(i, j).getTipoCelda() == TipoCelda.SUELO) {
+                    ImageView imagenViewSuelo = new ImageView(imgSuelo);
+                    grid.add(imagenViewSuelo, j, i);
+
+                } else {
+                    ImageView imageViewMuro = new ImageView(imgMuro);
+                    grid.add(imageViewMuro, j, i);
+                }
+            }
+        }
+    }
+
+    // ruta de las imagenes
     private void cargarImagenes() {
-        imgSuelo = new Image(getClass().getResourceAsStream("/imagenes/Escenario.png"));
-        imgMuro = new Image(getClass().getResourceAsStream("/imagenes/muro.jpg"));
-        imgHeroeUp = new Image(getClass().getResourceAsStream("/imagenes/h1Espalda.png"));
-        imgHeroeDown = new Image(getClass().getResourceAsStream("/imagenes/h1Delante.png"));
-        imgHeroeLeft = new Image(getClass().getResourceAsStream("/imagenes/h1izq.png"));
-        imgHeroeRight = new Image(getClass().getResourceAsStream("/imagenes/h1derech.png"));
+        try {
+            imgSuelo = new Image(App.class.getResourceAsStream("imagenes/imagenes/Escenario.png"));
+            imgMuro = new Image(App.class.getResourceAsStream("imagenes/imagenes/muro.jpg"));
+            imgHeroeUp = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1Espalda.png"));
+            imgHeroeDown = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1Delante.png"));
+            imgHeroeLeft = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1izq.png"));
+            imgHeroeRight = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1derech.png"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    //Configurar el grid
+    // Configurar el grid
     private void configurarGrid() {
         grid = new GridPane();
         for (int x = 0; x < mapa.getAncho(); x++) {
@@ -80,7 +103,7 @@ public class vista2Controller implements Observador {
         tablero.getChildren().add(grid);
     }
 
-    //Estadisticas
+    // Estadisticas
     private void configurarPanelEstadisticas() {
         datosHeroe = new VBox(10);
         datosHeroe.setLayoutX(10);
@@ -88,29 +111,29 @@ public class vista2Controller implements Observador {
         estadisticas.getChildren().add(datosHeroe);
     }
 
-    //Movimientos
+    // Movimientos
     private void manejarMovimiento(KeyEvent event) {
-    Direccion dir = null;
-    switch (event.getCode()) {
-        case UP:
-            dir = Direccion.ARRIBA;
-            break;
-        case DOWN:
-            dir = Direccion.ABAJO;
-            break;
-        case LEFT:
-            dir = Direccion.IZQUIERDA;
-            break;
-        case RIGHT:
-            dir = Direccion.DERECHA;
-            break;
-        default:
-            break;
+        Direccion dir = null;
+        switch (event.getCode()) {
+            case UP:
+                dir = Direccion.ARRIBA;
+                break;
+            case DOWN:
+                dir = Direccion.ABAJO;
+                break;
+            case LEFT:
+                dir = Direccion.IZQUIERDA;
+                break;
+            case RIGHT:
+                dir = Direccion.DERECHA;
+                break;
+            default:
+                break;
         }
 
-            if (dir != null) {
-              heroe.setDireccion(dir);
-             heroe.realizarTurno(mapa);
+        if (dir != null) {
+            heroe.setDireccion(dir);
+            heroe.realizarTurno(mapa);
         }
     }
 
@@ -130,23 +153,23 @@ public class vista2Controller implements Observador {
 
         Posicion pos = heroe.getPosicion();
         Image imgHeroe;
-            switch (heroe.getDireccion()) {
-                case ARRIBA:
-                    imgHeroe = imgHeroeUp;
-                    break;
-                case ABAJO:
-                    imgHeroe = imgHeroeDown;
-                    break;
-                case IZQUIERDA:
-                    imgHeroe = imgHeroeLeft;
-                    break;
-                case DERECHA:
-                    imgHeroe = imgHeroeRight;
-                    break;
-                default:
-                    imgHeroe = imgHeroeDown;
-                    break;
-            }
+        switch (heroe.getDireccion()) {
+            case ARRIBA:
+                imgHeroe = imgHeroeUp;
+                break;
+            case ABAJO:
+                imgHeroe = imgHeroeDown;
+                break;
+            case IZQUIERDA:
+                imgHeroe = imgHeroeLeft;
+                break;
+            case DERECHA:
+                imgHeroe = imgHeroeRight;
+                break;
+            default:
+                imgHeroe = imgHeroeDown;
+                break;
+        }
         ImageView ivHeroe = new ImageView(imgHeroe);
         ivHeroe.setFitWidth(40);
         ivHeroe.setFitHeight(40);
@@ -155,8 +178,7 @@ public class vista2Controller implements Observador {
         actualizarDatosHeroe();
     }
 
-
-    //Actualizar los datos del heroe
+    // Actualizar los datos del heroe
     private void actualizarDatosHeroe() {
         datosHeroe.getChildren().clear();
         datosHeroe.getChildren().addAll(
@@ -165,10 +187,8 @@ public class vista2Controller implements Observador {
                 new Label("Ataque: " + heroe.getAtaque()),
                 new Label("Defensa: " + heroe.getDefensa()),
                 new Label("Fuerza: " + heroe.getFuerza()),
-                new Label("Posición: (" + heroe.getPosicion().getX() + ", " + heroe.getPosicion().getY() + ")")
-        );
+                new Label("Posición: (" + heroe.getPosicion().getX() + ", " + heroe.getPosicion().getY() + ")"));
     }
-
 
     @Override
     public void actualizar() {

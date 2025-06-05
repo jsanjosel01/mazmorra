@@ -21,8 +21,8 @@ public class Mapa implements Observable {
     private List<Observador> observadores;
 
     public Mapa(){
-        this.ancho = ancho;
-        this.alto = alto;
+        this.ancho = 10;
+        this.alto = 10;
         this.celdas = new Celda[alto][ancho];
         this.posicionesPersonajes = new HashMap<>();
         this.observadores = new ArrayList<>();

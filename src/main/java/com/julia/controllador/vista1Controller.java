@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import com.julia.App;
+import com.julia.SceneId;
+import com.julia.SceneManager;
 import com.julia.modelos.Heroe;
 import com.julia.modelos.Posicion;
 import com.julia.modelos.Proveedor;
@@ -69,13 +71,7 @@ public class vista1Controller {
         //Guardar el héroe en el proveedor
         Proveedor.getInstance().setHeroe(heroe);
 
-        //Cambiar a la segunda vista
-        try {
-            App.setRoot("vista2");
-        } catch (Exception e) {
-            e.printStackTrace();
-            mostrarError("Error al cargar la siguiente vista.");
-        }
+        SceneManager.getInstance().loadScene(SceneId.VISTA2);
     }
 
     private void mostrarError(String mensaje) {
