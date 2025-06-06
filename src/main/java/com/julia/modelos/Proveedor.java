@@ -8,7 +8,7 @@ public class Proveedor {
 
   private Proveedor() {
     this.gestorPersonajes = new GestorPersonajes();
-    this.mapa = new Mapa();
+    this.mapa = null;
   }
 
   public static Proveedor getInstance() {

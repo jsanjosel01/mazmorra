@@ -13,16 +13,16 @@ import com.julia.interfaces.Observable;
  * Implementa la interfaz {@link Observable} para notificar cambios a los observadores.
  */
 public class Mapa implements Observable {
-   private Celda[][] celdas;
+    private Celda[][] celdas;
     private int ancho;
     private int alto;
     private Map<Posicion, Personaje> posicionesPersonajes;
     private Heroe heroe;
     private List<Observador> observadores;
 
-    public Mapa(){
-        this.ancho = 10;
-        this.alto = 10;
+    public Mapa(int ancho, int alto){
+        this.ancho = ancho;
+        this.alto = alto;
         this.celdas = new Celda[alto][ancho];
         this.posicionesPersonajes = new HashMap<>();
         this.observadores = new ArrayList<>();
@@ -60,6 +60,12 @@ public class Mapa implements Observable {
             return celdas[y][x];
         }
         return null;
+    }
+
+     public void setCelda(int x, int y, Celda celda) {
+        if (esPosicionValida(new Posicion(x, y))) {
+            celdas[y][x] = celda;
+        }
     }
 
     //Mueve un personaje a una posición válida, si la celda es transitable y no está ocupada
@@ -123,6 +129,8 @@ public class Mapa implements Observable {
     public int getAlto(){
         return alto;
     }
+
+   
 }
 
     

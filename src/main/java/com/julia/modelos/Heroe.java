@@ -13,10 +13,14 @@ public class Heroe extends Personaje {
      * @param nombre   El nombre del héroe.
      * @param posicion La posición inicial del héroe.
      */
-    public Heroe(String nombre, Posicion posicion){
+    public Heroe(String nombre, Posicion posicion, int vidaMaxima, int fuerza, int defensa, int velocidad) {
         super(nombre, posicion);
-        this.experiencia=0;
-
+        this.setVidaMaxima(vidaMaxima);
+        this.setVidaActual(vidaMaxima);
+        this.setFuerza(fuerza);
+        this.setDefensa(defensa);
+        this.setVelocidad(velocidad);
+        this.experiencia = 0;
     }
 
     //Getter y setters

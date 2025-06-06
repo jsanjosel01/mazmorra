@@ -1,4 +1,4 @@
-nombre,salud,fuerza,defensa,velocidad,posicionX,posicionY
+tipo,x,y,vida,fuerza,defensa,velocidad,percepcion
 
 Goblin,5,7,5,10,5,6,4
 Troll,3,9,1,25,10,8,2
