@@ -86,7 +86,7 @@ public class LectoraMapa {
                 if (linea.trim().isEmpty() || linea.startsWith("nombre")) continue;
 
                 String[] partes = linea.split(",");
-                if (partes.length < 7) continue;
+                if (partes.length < 8) continue;
 
                 String nombre = partes[0].trim();
                 int salud = Integer.parseInt(partes[1].trim());
@@ -95,6 +95,7 @@ public class LectoraMapa {
                 int velocidad = Integer.parseInt(partes[4].trim());
                 int posX = Integer.parseInt(partes[5].trim());
                 int posY = Integer.parseInt(partes[6].trim());
+                int percepcion = Integer.parseInt(partes[7].trim());
 
                 Posicion posicion = new Posicion(posX, posY);
 
@@ -102,15 +103,17 @@ public class LectoraMapa {
                     throw new IllegalArgumentException("Posición inválida para personaje: " + nombre + " en (" + posX + "," + posY + ")");
                 }
 
-                if (nombre.equalsIgnoreCase("Jugador") || nombre.equalsIgnoreCase("Heroe")) {
-                    Heroe heroe = new Heroe(nombre, salud, fuerza, defensa, velocidad, posX, posY);
+               if (nombre.equalsIgnoreCase("Jugador") || nombre.equalsIgnoreCase("Heroe")) {
+                    Heroe heroe = new Heroe(nombre, posicion, salud, fuerza, defensa, velocidad);
                     mapa.agregarPersonaje(heroe);
                 } else {
-                    Enemigo enemigo = new Enemigo(nombre, salud, fuerza, defensa, velocidad, posX, posY);
+                    Enemigo enemigo = new Enemigo(nombre, posicion, salud, fuerza, defensa, velocidad, percepcion);
                     mapa.agregarPersonaje(enemigo);
                 }
+
             }
         }
-    }
 
-}
+    }
+}                
+            

@@ -5,5 +5,16 @@ package com.julia.modelos;
  * Las celdas son suelo y pared.
  */
 public enum TipoCelda {
-    SUELO, MURO
+    SUELO(true),
+    MURO(false);
+
+    private final boolean transitable;
+
+    TipoCelda(boolean transitable) {
+        this.transitable = transitable;
+    }
+
+    public boolean isTransitable() {
+        return transitable;
+    }
 }

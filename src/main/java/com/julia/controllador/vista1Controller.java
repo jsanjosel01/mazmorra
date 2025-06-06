@@ -62,7 +62,7 @@ public class vista1Controller {
         }
 
         Posicion posicionInicial = new Posicion(0, 0);
-        Heroe heroe = new Heroe(nombre, posicionInicial);
+        Heroe heroe = new Heroe(nombre, defensa, velocidad, ataque, fuerza);
         heroe.setDefensa((int) defensa);
         heroe.setVelocidad((int) velocidad);
         heroe.setAtaque((int) ataque);
