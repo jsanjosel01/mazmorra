@@ -39,6 +39,7 @@ public class vista2Controller implements Observador {
 
     @FXML
     public void initialize() {
+        Proveedor p = Proveedor.getInstance();
         mapa = Proveedor.getInstance().getMapa();
         heroe = Proveedor.getInstance().getHeroe();
 
@@ -83,11 +84,17 @@ public class vista2Controller implements Observador {
         }
     }
 
+    public void pintarPersonaje() {
+        //llamar a gestor de personajes, y cargalos
+
+        
+    }
+
     // ruta de las imagenes
     private void cargarImagenes() {
         try {
-            imgSuelo = new Image(App.class.getResourceAsStream("imagenes/imagenes/Escenario.png"));
-            imgMuro = new Image(App.class.getResourceAsStream("imagenes/imagenes/muro.jpg"));
+            imgSuelo = new Image(App.class.getResourceAsStream("imagenes/imagenes/Escenario.png"),40,40,false,false);
+            imgMuro = new Image(App.class.getResourceAsStream("imagenes/imagenes/muro.jpg"),40,40,false,false);
             imgHeroeUp = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1Espalda.png"));
             imgHeroeDown = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1Delante.png"));
             imgHeroeLeft = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1izq.png"));

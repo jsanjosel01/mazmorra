@@ -13,8 +13,8 @@ import com.julia.App;
 public class LectoraMapa {
     //Leer el archivo, tablero mas enemigos
 
-     private static final String rutaTablero = "/dataUrl/tablero.txt";
-    private static final String rutaEnemigos = "/dataUrl/enemigos.txt";
+    private static final String rutaTablero = "dataUrl/tablero.txt";
+    private static final String rutaEnemigos = "dataUrl/enemigos.txt";
 
     /**
      * Lee el archivo tablero.txt y construye el objeto Mapa con celdas y personajes.
@@ -53,7 +53,7 @@ public class LectoraMapa {
             String fila = lineas.get(y);
             for (int x = 0; x < ancho; x++) {
                 char simbolo = fila.charAt(x);
-                TipoCelda tipo;
+                TipoCelda tipo = TipoCelda.SUELO;
                 switch (simbolo) {
                     case '.':
                         tipo = TipoCelda.SUELO;
@@ -61,8 +61,15 @@ public class LectoraMapa {
                     case '#':
                         tipo = TipoCelda.MURO;
                         break;
+                    case 'H':
+                        // TODO
+                        break;
+                    case 'E':
+                        // TODO;
+                        break;
+
                     default:
-                        throw new IllegalArgumentException("Símbolo no reconocido en mapa: " + simbolo);
+                        throw    new IllegalArgumentException("Símbolo no reconocido en mapa: " + simbolo);
                 }
                 mapa.setCelda(x, y, new Celda(tipo.isTransitable(), tipo));
             }
@@ -82,6 +89,7 @@ public class LectoraMapa {
                 new FileInputStream(new File(App.class.getResource(rutaEnemigos).toURI()))))) {
 
             String linea;
+            br.readLine();
             while ((linea = br.readLine()) != null) {
                 if (linea.trim().isEmpty() || linea.startsWith("nombre")) continue;
 
@@ -93,9 +101,9 @@ public class LectoraMapa {
                 int fuerza = Integer.parseInt(partes[2].trim());
                 int defensa = Integer.parseInt(partes[3].trim());
                 int velocidad = Integer.parseInt(partes[4].trim());
-                int posX = Integer.parseInt(partes[5].trim());
-                int posY = Integer.parseInt(partes[6].trim());
-                int percepcion = Integer.parseInt(partes[7].trim());
+                int percepcion = Integer.parseInt(partes[5].trim());
+                int posX = Integer.parseInt(partes[6].trim());
+                int posY = Integer.parseInt(partes[7].trim());
 
                 Posicion posicion = new Posicion(posX, posY);
 

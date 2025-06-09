@@ -8,7 +8,11 @@ public class Proveedor {
 
   private Proveedor() {
     this.gestorPersonajes = new GestorPersonajes();
-    //this.mapa = null;
+    try {
+      this.mapa = new LectoraMapa().cargarMapa();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public static Proveedor getInstance() {
