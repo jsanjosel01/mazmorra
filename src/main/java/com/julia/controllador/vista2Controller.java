@@ -19,6 +19,9 @@ public class vista2Controller implements Observador {
     @FXML
     private AnchorPane estadisticas;
 
+    @FXML
+    private VBox vboxEstadisticas;
+
     private GridPane grid;
     private VBox datosHeroe;
 
@@ -32,10 +35,10 @@ public class vista2Controller implements Observador {
     private Image imgHeroeLeft;
     private Image imgHeroeRight;
 
-    private Image imgEnemigoup;
+    //private Image imgEnemigoup;
     private Image imgEnemigoDown;
-    private Image imgEnemigoLeft;
-    private Image imgEnemigoRight;
+    //private Image imgEnemigoLeft;
+    //private Image imgEnemigoRight;
 
     @FXML
     public void initialize() {
@@ -64,6 +67,11 @@ public class vista2Controller implements Observador {
         pintarEscenario();
        
         //actualizarVista();
+
+        //Estadisticas
+        Label lblEjemplo = new Label("Partidas jugadas: 10");
+        vboxEstadisticas.getChildren().add(lblEjemplo);
+        
     }
 
     public void pintarEscenario() {
@@ -101,10 +109,10 @@ public class vista2Controller implements Observador {
             imgHeroeRight = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1derech.png"));
 
              // Carga la imagen del enemigo
-            imgEnemigoup = new Image(App.class.getResourceAsStream("imagenes/imagenes/g1Espalda.png"));
+            //imgEnemigoup = new Image(App.class.getResourceAsStream("imagenes/imagenes/g1Espalda.png"));
             imgEnemigoDown = new Image(App.class.getResourceAsStream("imagenes/imagenes/g3Delante.png"));
-            imgEnemigoLeft = new Image(App.class.getResourceAsStream("imagenes/imagenes/g2izq.png"));
-            imgEnemigoRight = new Image(App.class.getResourceAsStream("imagenes/imagenes/g4derech.png"));
+            //imgEnemigoLeft = new Image(App.class.getResourceAsStream("imagenes/imagenes/g2izq.png"));
+            //imgEnemigoRight = new Image(App.class.getResourceAsStream("imagenes/imagenes/g4derech.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -209,8 +217,16 @@ public class vista2Controller implements Observador {
                 new Label("Posición: (" + heroe.getPosicion().getX() + ", " + heroe.getPosicion().getY() + ")"));
     }
 
+    // Estadisticas
+    private void agregarEstadistica(String nombre, String valor) {
+        Label lbl = new Label(nombre + ": " + valor);
+        vboxEstadisticas.getChildren().add(lbl);
+    }
+
     @Override
     public void actualizar() {
         actualizarVista();
     }
+
+    
 }
