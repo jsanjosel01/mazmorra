@@ -61,13 +61,6 @@ public class LectoraMapa {
                     case '#':
                         tipo = TipoCelda.MURO;
                         break;
-                    case 'H':
-                        // TODO
-                        break;
-                    case 'E':
-                        // TODO;
-                        break;
-
                     default:
                         throw    new IllegalArgumentException("Símbolo no reconocido en mapa: " + simbolo);
                 }

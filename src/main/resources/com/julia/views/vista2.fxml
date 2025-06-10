@@ -11,7 +11,7 @@
       <AnchorPane fx:id="tablero" prefHeight="400.0" prefWidth="487.0" />
       <AnchorPane fx:id="estadisticas" prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Label layoutX="41.0" layoutY="21.0" prefHeight="18.0" prefWidth="74.0" text="Estadisticas" textAlignment="CENTER">
+            <Label layoutX="27.0" layoutY="22.0" prefHeight="18.0" prefWidth="74.0" text="Estadisticas" textAlignment="CENTER">
                <font>
                   <Font name="Berlin Sans FB Demi Bold" size="14.0" />
                </font>
