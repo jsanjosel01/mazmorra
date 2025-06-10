@@ -71,7 +71,7 @@ public class vista2Controller implements Observador {
         //Estadisticas
         Label lblEjemplo = new Label("Partidas jugadas: 10");
         vboxEstadisticas.getChildren().add(lblEjemplo);
-        
+
     }
 
     public void pintarEscenario() {
@@ -136,6 +136,7 @@ public class vista2Controller implements Observador {
         datosHeroe.setLayoutX(10);
         datosHeroe.setLayoutY(10);
         estadisticas.getChildren().add(datosHeroe);
+
     }
 
     // Movimientos
