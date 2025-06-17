@@ -61,9 +61,6 @@ public class LectoraMapa {
                     case '#':
                         tipo = TipoCelda.MURO;
                         break;
-                    case 'x':
-                        tipo = TipoCelda.MURO; //Cambiar
-                        break;
                     default:
                         throw    new IllegalArgumentException("Símbolo no reconocido en mapa: " + simbolo);
                 }
