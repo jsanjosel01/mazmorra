@@ -17,22 +17,18 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        // Inicializa el SceneManager (singleton)
+        //Inicializa el SceneManager (singleton)
         sceneManager = SceneManager.getInstance();
 
-        // Registra las escenas principales
+        //Registra las escenas principales
         sceneManager.setScene(SceneId.BIENVENIDA, "bienvenida");
         sceneManager.setScene(SceneId.VISTA1, "vista1");
         sceneManager.setScene(SceneId.VISTA2, "vista2");
-        // Puedes agregar más escenas según tu proyecto
-
-        // Inicializa el SceneManager con el Stage principal
         sceneManager.init(stage);
 
-        // Carga la escena de bienvenida al iniciar
+        //Carga la escena de bienvenida al iniciar
         sceneManager.loadScene(SceneId.BIENVENIDA);
 
-        // Configura el título de la ventana
         stage.setTitle("Videojuego Mazmorras");
         stage.show();
     }

@@ -66,6 +66,7 @@ public class vista2Controller implements Observador {
 
        
         pintarEscenario();
+        pintarPersonaje(); 
        
         //actualizarVista();
 
@@ -95,13 +96,19 @@ public class vista2Controller implements Observador {
 
     //metodo pintar los enemigos
     public void pintarPersonaje() {
-        //llamar a gestor de personajes, y cargalos
+    GestorPersonajes gestor = Proveedor.getInstance().getGestorPersonajes();
 
-        
+    for (Personaje p : gestor.getPersonajes()) {
+        if (!(p instanceof Heroe)) {
+            Posicion pos = p.getPosicion();
+            ImageView imgEnemigoView = new ImageView(imgEnemigoDown); 
+            imgEnemigoView.setFitWidth(40);
+            imgEnemigoView.setFitHeight(40);
+            grid.add(imgEnemigoView, pos.getX(), pos.getY());
+        }
     }
-
-  
-
+}
+    
     // ruta de las imagenes
     private void cargarImagenes() {
         try {
@@ -171,19 +178,25 @@ public class vista2Controller implements Observador {
 
     // Actualizar la vista
     private void actualizarVista() {
-        grid.getChildren().clear();
+       grid.getChildren().clear();
 
-        for (int y = 0; y < mapa.getAlto(); y++) {
-            for (int x = 0; x < mapa.getAncho(); x++) {
-                Celda celda = mapa.getCelda(x, y);
-                ImageView celdaView = new ImageView(
-                        celda.getTipoCelda() == TipoCelda.MURO ? imgMuro : imgSuelo);
-                celdaView.setFitWidth(40);
-                celdaView.setFitHeight(40);
-                grid.add(celdaView, x, y);
-            }
+    // Pintar suelo y muros
+    for (int y = 0; y < mapa.getAlto(); y++) {
+        for (int x = 0; x < mapa.getAncho(); x++) {
+            Celda celda = mapa.getCelda(x, y);
+            ImageView celdaView = new ImageView(
+                    celda.getTipoCelda() == TipoCelda.MURO ? imgMuro : imgSuelo);
+            celdaView.setFitWidth(40);
+            celdaView.setFitHeight(40);
+            grid.add(celdaView, x, y);
         }
+    }
+    pintarHeroe();
+    pintarPersonaje();
+    actualizarDatosHeroe();
+}
 
+    private void pintarHeroe() {
         Posicion pos = heroe.getPosicion();
         Image imgHeroe;
         switch (heroe.getDireccion()) {
@@ -207,8 +220,6 @@ public class vista2Controller implements Observador {
         ivHeroe.setFitWidth(40);
         ivHeroe.setFitHeight(40);
         grid.add(ivHeroe, pos.getX(), pos.getY());
-
-        actualizarDatosHeroe();
     }
 
     // Actualizar los datos del heroe
