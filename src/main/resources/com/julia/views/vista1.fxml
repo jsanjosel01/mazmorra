@@ -4,7 +4,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -18,42 +17,38 @@
             <Image url="@../imagenes/imagenes/Celda.png" />
          </image>
       </ImageView>
-      <Label layoutX="245.0" layoutY="63.0" text="CREA TU PERSONAJE" textAlignment="CENTER" textFill="WHITE">
+      <Label layoutX="48.0" layoutY="60.0" text="CREA TU PERSONAJE" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="184.0" layoutY="100.0" text="NOMBRE:" textFill="WHITE">
+      <Label layoutX="195.0" layoutY="105.0" text="NOMBRE:" textFill="WHITE">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="nombreField" layoutX="289.0" layoutY="93.0" opacity="0.8" prefHeight="29.0" prefWidth="162.0" style="-fx-background-color: white; -fx-border-color: #ccb216;" />
-      <Label layoutX="184.0" layoutY="151.0" text="DEFENSA:" textFill="WHITE">
+      <TextField fx:id="nombreField" layoutX="275.0" layoutY="90.0" opacity="0.8" prefHeight="29.0" prefWidth="162.0" promptText="Nombre" style="-fx-background-color: white; -fx-border-color: #ccb216;" />
+      <Label layoutX="194.0" layoutY="143.0" text="DEFENSA:" textFill="WHITE">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="188.0" layoutY="274.0" text="FUERZA:" textFill="WHITE">
+      <Label layoutX="198.0" layoutY="229.0" text="FUERZA:" textFill="WHITE">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="184.0" layoutY="192.0" prefHeight="20.0" prefWidth="98.0" text="VELOCIDAD:" textFill="WHITE">
+      <Label layoutX="177.0" layoutY="271.0" prefHeight="20.0" prefWidth="98.0" text="VELOCIDAD:" textFill="WHITE">
          <font>
             <Font name="Berlin Sans FB Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="186.0" layoutY="236.0" prefHeight="20.0" prefWidth="58.0" text="ATAQUE:" textFill="WHITE">
+      <Label layoutX="197.0" layoutY="186.0" prefHeight="20.0" prefWidth="58.0" text="ATAQUE:" textFill="WHITE">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="14.0" />
          </font>
       </Label>
-      <Slider fx:id="defensaSlider" layoutX="301.0" layoutY="151.0" opacity="0.8" style="-fx-border-color: blue;" />
-      <Slider fx:id="velocidadSlider" layoutX="301.0" layoutY="195.0" opacity="0.8" style="-fx-border-color: blue;" />
-      <Slider fx:id="ataqueSlider" layoutX="301.0" layoutY="238.0" opacity="0.8" style="-fx-border-color: blue;" />
-      <Slider fx:id="fuerzaSlider" layoutX="301.0" layoutY="282.0" opacity="0.8" style="-fx-border-color: blue;" />
-      <Button fx:id="startButton" alignment="CENTER" cache="true" layoutX="263.0" layoutY="326.0" mnemonicParsing="false" opacity="0.95" prefHeight="38.0" prefWidth="97.0" style="-fx-background-color: #ccb216;" text="START" textAlignment="CENTER">
+      <Button fx:id="startButton" alignment="CENTER" cache="true" layoutX="467.0" layoutY="339.0" mnemonicParsing="false" opacity="0.95" prefHeight="38.0" prefWidth="97.0" style="-fx-background-color: #ccb216;" text="START" textAlignment="CENTER" textFill="#732808">
          <font>
             <Font name="Berlin Sans FB Bold" size="18.0" />
          </font>
@@ -64,5 +59,14 @@
             <Cursor fx:constant="TEXT" />
          </cursor>
       </Button>
+      <TextField fx:id="defensa" layoutX="275.0" layoutY="136.0" opacity="0.8" prefHeight="29.0" prefWidth="162.0" promptText="Defensa" style="-fx-background-color: white; -fx-border-color: #ccb216;" />
+      <TextField fx:id="velocidad" layoutX="275.0" layoutY="266.0" opacity="0.8" prefHeight="29.0" prefWidth="162.0" promptText="Velocidad" style="-fx-background-color: white; -fx-border-color: #ccb216;" />
+      <TextField fx:id="ataque" layoutX="275.0" layoutY="181.0" opacity="0.8" prefHeight="29.0" prefWidth="162.0" promptText="Ataque" style="-fx-background-color: white; -fx-border-color: #ccb216;" />
+      <TextField fx:id="fuerza" layoutX="275.0" layoutY="222.0" opacity="0.8" prefHeight="29.0" prefWidth="162.0" promptText="Fuerza" style="-fx-background-color: white; -fx-border-color: #ccb216;" />
+      <Label layoutX="198.0" layoutY="319.0" text="¡¡Tienes 40 puntos para repartir!!" textAlignment="CENTER" textFill="#f2701a">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

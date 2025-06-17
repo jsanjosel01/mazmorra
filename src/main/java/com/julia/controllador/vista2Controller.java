@@ -42,6 +42,7 @@ public class vista2Controller implements Observador {
 
     @FXML
     public void initialize() {
+        
         Proveedor p = Proveedor.getInstance();
         mapa = Proveedor.getInstance().getMapa();
         heroe = Proveedor.getInstance().getHeroe();
@@ -106,14 +107,14 @@ public class vista2Controller implements Observador {
         try {
             imgSuelo = new Image(App.class.getResourceAsStream("imagenes/imagenes/Escenario.png"),40,40,false,false);
             imgMuro = new Image(App.class.getResourceAsStream("imagenes/imagenes/muro.jpg"),40,40,false,false);
-            imgHeroeUp = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1Espalda.png"));
-            imgHeroeDown = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1Delante.png"));
-            imgHeroeLeft = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1izq.png"));
-            imgHeroeRight = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1derech.png"));
+            imgHeroeUp = new Image(App.class.getResourceAsStream("imagenes/imagenes/prota_espalda.png"));
+            imgHeroeDown = new Image(App.class.getResourceAsStream("imagenes/imagenes/prota_delante.png"));
+            imgHeroeLeft = new Image(App.class.getResourceAsStream("imagenes/imagenes/prota_izquierda.png"));
+            imgHeroeRight = new Image(App.class.getResourceAsStream("imagenes/imagenes/prota_derecha.png"));
 
             
             //imgEnemigoup = new Image(App.class.getResourceAsStream("imagenes/imagenes/g1Espalda.png"));
-            imgEnemigoDown = new Image(App.class.getResourceAsStream("imagenes/imagenes/g3Delante.png"));
+            imgEnemigoDown = new Image(App.class.getResourceAsStream("imagenes/imagenes/goblin_delante.png"));
             //imgEnemigoLeft = new Image(App.class.getResourceAsStream("imagenes/imagenes/g2izq.png"));
             //imgEnemigoRight = new Image(App.class.getResourceAsStream("imagenes/imagenes/g4derech.png"));
         } catch (Exception e) {

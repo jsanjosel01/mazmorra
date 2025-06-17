@@ -19,69 +19,71 @@ public class vista1Controller {
     private TextField nombreField;
 
     @FXML
-    private Slider defensaSlider;
+    private TextField defensa;
 
     @FXML
-    private Slider velocidadSlider;
+    private TextField velocidad;
 
     @FXML
-    private Slider ataqueSlider;
+    private TextField ataque;
 
     @FXML
-    private Slider fuerzaSlider;
+    private TextField fuerza;
 
     @FXML
     private Button startButton;
 
     @FXML
     private void initialize() {
-        defensaSlider.setValue(5);
-        velocidadSlider.setValue(5);
-        ataqueSlider.setValue(5);
-        fuerzaSlider.setValue(5);
-
         startButton.setOnAction(event -> onStartClicked());
     }
 
-    @FXML
-    private void onStartClicked() {
-        String nombre = nombreField.getText();
-        double defensa = defensaSlider.getValue();
-        double velocidad = velocidadSlider.getValue();
-        double ataque = ataqueSlider.getValue();
-        double fuerza = fuerzaSlider.getValue();
-
+     private void onStartClicked() {
+        String nombre = nombreField.getText().trim();
         if (nombre.isEmpty()) {
-            mostrarError("Debes darle un nombre al personaje");
+            mostrarError("Debes darle un nombre al personaje.");
             return;
         }
 
-        if (defensa <= 0 || velocidad <= 0 || ataque <= 0 || fuerza <= 0) {
-            mostrarError("Todos los atributos deben ser mayores a cero.");
+        int defensaVal, velocidadVal, ataqueVal, fuerzaVal;
+
+        try {
+            defensaVal = Integer.parseInt(defensa.getText().trim());
+            velocidadVal = Integer.parseInt(velocidad.getText().trim());
+            ataqueVal = Integer.parseInt(ataque.getText().trim());
+            fuerzaVal = Integer.parseInt(fuerza.getText().trim());
+        } catch (NumberFormatException e) {
+            mostrarError("Todos los atributos deben ser números enteros válidos.");
+            return;
+        }
+
+        if (defensaVal < 0 || velocidadVal < 0 || ataqueVal < 0 || fuerzaVal < 0) {
+            mostrarError("Los atributos no pueden ser negativos.");
+            return;
+        }
+
+        int suma = defensaVal + velocidadVal + ataqueVal + fuerzaVal;
+        if (suma != 40) {
+            mostrarError("La suma debe ser 40. Actualmente es: " + suma);
             return;
         }
 
         Posicion posicionInicial = new Posicion(0, 0);
-        int vidaMaxima = 100; // o el valor que quieras asignar
+        int vidaMaxima = 100;
 
-        Heroe heroe = new Heroe(nombre,posicionInicial,vidaMaxima,(int) fuerza,(int) defensa,(int) velocidad);
-        //System.out.println(heroe);
+        Heroe heroe = new Heroe(nombre, posicionInicial, vidaMaxima, fuerzaVal, defensaVal, velocidadVal);
+        heroe.setAtaque(ataqueVal);
 
-        heroe.setAtaque((int) ataque);
-        //Guardar el héroe en el proveedor
         Proveedor.getInstance().setHeroe(heroe);
 
         SceneManager.getInstance().loadScene(SceneId.VISTA2);
     }
 
     private void mostrarError(String mensaje) {
-        Alert alert = new Alert(AlertType.ERROR);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error de validación");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
-       
 }
-    
-
