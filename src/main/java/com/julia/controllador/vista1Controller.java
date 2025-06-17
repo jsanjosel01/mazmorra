@@ -65,8 +65,9 @@ public class vista1Controller {
         int vidaMaxima = 100; // o el valor que quieras asignar
 
         Heroe heroe = new Heroe(nombre,posicionInicial,vidaMaxima,(int) fuerza,(int) defensa,(int) velocidad);
+        //System.out.println(heroe);
 
-    heroe.setAtaque((int) ataque);
+        heroe.setAtaque((int) ataque);
         //Guardar el héroe en el proveedor
         Proveedor.getInstance().setHeroe(heroe);
 

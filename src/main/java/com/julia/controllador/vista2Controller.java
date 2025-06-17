@@ -68,14 +68,11 @@ public class vista2Controller implements Observador {
        
         //actualizarVista();
 
-        //Estadisticas
-        Label lblEjemplo = new Label("Partidas jugadas: 10");
-        vboxEstadisticas.getChildren().add(lblEjemplo);
-
     }
 
     public void pintarEscenario() {
         mapa = Proveedor.getInstance().getMapa();
+        //Nos vamos a la clase proveedor,
         // acceder a la matriz, y recorrerla.
 
         for (int i = 0; i < mapa.getAlto(); i++) {
@@ -88,15 +85,21 @@ public class vista2Controller implements Observador {
                     ImageView imageViewMuro = new ImageView(imgMuro);
                     grid.add(imageViewMuro, j, i);
                 }
+                //En vez de ser If/else. Poner en la linea 87 un else if
+                //poner otro else if.
+                //otro else if.
             }
         }
     }
 
+    //metodo pintar los enemigos
     public void pintarPersonaje() {
         //llamar a gestor de personajes, y cargalos
 
         
     }
+
+  
 
     // ruta de las imagenes
     private void cargarImagenes() {
@@ -108,7 +111,7 @@ public class vista2Controller implements Observador {
             imgHeroeLeft = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1izq.png"));
             imgHeroeRight = new Image(App.class.getResourceAsStream("imagenes/imagenes/h1derech.png"));
 
-             // Carga la imagen del enemigo
+            
             //imgEnemigoup = new Image(App.class.getResourceAsStream("imagenes/imagenes/g1Espalda.png"));
             imgEnemigoDown = new Image(App.class.getResourceAsStream("imagenes/imagenes/g3Delante.png"));
             //imgEnemigoLeft = new Image(App.class.getResourceAsStream("imagenes/imagenes/g2izq.png"));
@@ -165,6 +168,7 @@ public class vista2Controller implements Observador {
         }
     }
 
+    // Actualizar la vista
     private void actualizarVista() {
         grid.getChildren().clear();
 
