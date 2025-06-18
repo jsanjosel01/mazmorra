@@ -13,6 +13,18 @@ import javafx.scene.layout.*;
 
 public class vista2Controller implements Observador {
 
+    private Image imgSuelo;
+    private Image imgMuro;
+    private Image imgHeroeUp;
+    private Image imgHeroeDown;
+    private Image imgHeroeLeft;
+    private Image imgHeroeRight;
+
+    //private Image imgEnemigoup;
+    private Image imgEnemigoDown;
+    //private Image imgEnemigoLeft;
+    //private Image imgEnemigoRight;
+
     @FXML
     private AnchorPane tablero;
 
@@ -28,18 +40,7 @@ public class vista2Controller implements Observador {
     private Mapa mapa;
     private Heroe heroe;
 
-    private Image imgSuelo;
-    private Image imgMuro;
-    private Image imgHeroeUp;
-    private Image imgHeroeDown;
-    private Image imgHeroeLeft;
-    private Image imgHeroeRight;
-
-    //private Image imgEnemigoup;
-    private Image imgEnemigoDown;
-    //private Image imgEnemigoLeft;
-    //private Image imgEnemigoRight;
-
+   
     @FXML
     public void initialize() {
         
@@ -64,9 +65,8 @@ public class vista2Controller implements Observador {
         tablero.setFocusTraversable(true);
         tablero.requestFocus();
 
-       
         pintarEscenario();
-        pintarPersonaje(); 
+        pintarEnemigos(); 
        
         //actualizarVista();
 
@@ -95,7 +95,7 @@ public class vista2Controller implements Observador {
     }
 
     //metodo pintar los enemigos
-    public void pintarPersonaje() {
+    public void pintarEnemigos() {
     GestorPersonajes gestor = Proveedor.getInstance().getGestorPersonajes();
 
     for (Personaje p : gestor.getPersonajes()) {
@@ -114,7 +114,7 @@ public class vista2Controller implements Observador {
         try {
             imgSuelo = new Image(App.class.getResourceAsStream("imagenes/imagenes/Escenario.png"),40,40,false,false);
             imgMuro = new Image(App.class.getResourceAsStream("imagenes/imagenes/muro.jpg"),40,40,false,false);
-            imgHeroeUp = new Image(App.class.getResourceAsStream("imagenes/imagenes/prota_espalda.png"));
+            imgHeroeUp = new Image(App.class.getResourceAsStream("imagenes/imagenes/prota_espalda.png"),10,10,false,false);
             imgHeroeDown = new Image(App.class.getResourceAsStream("imagenes/imagenes/prota_delante.png"));
             imgHeroeLeft = new Image(App.class.getResourceAsStream("imagenes/imagenes/prota_izquierda.png"));
             imgHeroeRight = new Image(App.class.getResourceAsStream("imagenes/imagenes/prota_derecha.png"));
@@ -173,13 +173,14 @@ public class vista2Controller implements Observador {
         if (dir != null) {
             heroe.setDireccion(dir);
             heroe.realizarTurno(mapa);
+            actualizarVista();
         }
     }
 
     // Actualizar la vista
     private void actualizarVista() {
        grid.getChildren().clear();
-
+        
     // Pintar suelo y muros
     for (int y = 0; y < mapa.getAlto(); y++) {
         for (int x = 0; x < mapa.getAncho(); x++) {
@@ -191,9 +192,11 @@ public class vista2Controller implements Observador {
             grid.add(celdaView, x, y);
         }
     }
-    pintarHeroe();
-    pintarPersonaje();
-    actualizarDatosHeroe();
+
+    pintarHeroe();          
+    pintarEnemigos();      
+    actualizarDatosHeroe(); 
+
 }
 
     private void pintarHeroe() {
