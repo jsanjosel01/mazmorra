@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * JavaFX App principal
+ * Julia San José León 
  */
 public class App extends Application {
 
@@ -28,7 +29,6 @@ public class App extends Application {
 
         //Carga la escena de bienvenida al iniciar
         sceneManager.loadScene(SceneId.BIENVENIDA);
-
         stage.setTitle("Videojuego Mazmorras");
         stage.show();
     }

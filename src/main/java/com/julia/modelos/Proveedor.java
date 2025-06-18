@@ -1,5 +1,7 @@
 package com.julia.modelos;
 
+import java.util.ArrayList;
+
 public class Proveedor {
   private static Proveedor instance;
   private GestorPersonajes gestorPersonajes;
@@ -7,13 +9,25 @@ public class Proveedor {
   private Mapa mapa;
 
   private Proveedor() {
-    this.gestorPersonajes = new GestorPersonajes();
-    try {
-      this.mapa = new LectoraMapa().cargarMapa();
-    } catch (Exception e) {
-      e.printStackTrace();
+      this.gestorPersonajes = new GestorPersonajes();
+        try {
+          this.mapa = new LectoraMapa().cargarMapa();
+          cargarEnemigos();
+
+        } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
-  }
+
+      public void cargarEnemigos() {
+        String rutaArchivo = "/com/julia/dataUrl/enemigos.txt";
+
+        ArrayList<Enemigo> enemigosDesdeArchivo = GestorEnemigos.cargarEnemigosDesdeArchivo(rutaArchivo);
+
+        for (Enemigo enemigo : enemigosDesdeArchivo) {
+            gestorPersonajes.insertarPersonaje(enemigo);
+        }
+    }
 
   public static Proveedor getInstance() {
     if (instance == null) {
