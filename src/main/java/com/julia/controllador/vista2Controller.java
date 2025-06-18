@@ -47,7 +47,7 @@ public class vista2Controller implements Observador {
         Proveedor p = Proveedor.getInstance();
         mapa = Proveedor.getInstance().getMapa();
         heroe = Proveedor.getInstance().getHeroe();
-
+        
         if (mapa == null || heroe == null) {
             System.err.println("No están disponibles...");
         }
@@ -200,7 +200,7 @@ public class vista2Controller implements Observador {
 }
 
     private void pintarHeroe() {
-        Posicion pos = heroe.getPosicion();
+        Posicion pos =heroe.getPosicion();
         Image imgHeroe;
         switch (heroe.getDireccion()) {
             case ARRIBA:
