@@ -8,8 +8,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * JavaFX App principal
- * Julia San José León 
+ * @author Julia San José León 
+ * 
  */
 public class App extends Application {
 
