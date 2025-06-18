@@ -7,6 +7,7 @@ public class Proveedor {
   private GestorPersonajes gestorPersonajes;
   private Heroe heroe;
   private Mapa mapa;
+ 
 
   private Proveedor() {
       this.gestorPersonajes = new GestorPersonajes();
@@ -22,7 +23,7 @@ public class Proveedor {
       public void cargarEnemigos() {
         String rutaArchivo = "/com/julia/dataUrl/enemigos.txt";
 
-        ArrayList<Enemigo> enemigosDesdeArchivo = GestorEnemigos.cargarEnemigosDesdeArchivo(rutaArchivo);
+        ArrayList<Enemigo> enemigosDesdeArchivo = GestorEnemigos.cargarEnemigosDesdeRecurso(rutaArchivo);
 
         for (Enemigo enemigo : enemigosDesdeArchivo) {
             gestorPersonajes.insertarPersonaje(enemigo);
