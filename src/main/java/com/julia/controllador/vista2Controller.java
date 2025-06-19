@@ -159,6 +159,7 @@ public class vista2Controller implements Observador {
         estadisticas.getChildren().add(datosHeroe);
 
     }
+    
 
     // Movimientos
     private void manejarMovimiento(KeyEvent event) {
@@ -212,6 +213,11 @@ public class vista2Controller implements Observador {
     private void pintarHeroe() {
         Posicion pos =heroe.getPosicion();
         Image imgHeroe;
+
+        Direccion direccion = heroe.getDireccion();
+        if (direccion == null) {
+            imgHeroe = imgHeroeDown;
+        } else {
         switch (heroe.getDireccion()) {
             case ARRIBA:
                 imgHeroe = imgHeroeUp;
@@ -234,6 +240,7 @@ public class vista2Controller implements Observador {
         ivHeroe.setFitHeight(40);
         grid.add(ivHeroe, pos.getX(), pos.getY());
     }
+}
 
     // Actualizar los datos del heroe
     private void actualizarDatosHeroe() {

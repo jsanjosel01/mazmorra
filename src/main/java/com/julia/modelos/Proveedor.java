@@ -13,12 +13,21 @@ public class Proveedor {
       this.gestorPersonajes = new GestorPersonajes();
         try {
           this.mapa = new LectoraMapa().cargarMapa();
+          //this.heroe = new Heroe();
           cargarEnemigos();
 
         } catch (Exception e) {
         e.printStackTrace();
       }
     }
+
+    public static Proveedor getInstance() {
+      if (instance == null) {
+        instance = new Proveedor();
+      }
+      return instance;
+    }
+    
 
       public void cargarEnemigos() {
         String rutaArchivo = "/com/julia/dataUrl/enemigos.txt";
@@ -30,12 +39,7 @@ public class Proveedor {
         }
     }
 
-  public static Proveedor getInstance() {
-    if (instance == null) {
-      instance = new Proveedor();
-    }
-    return instance;
-  }
+  
 
   public GestorPersonajes getGestorPersonajes() {
     return gestorPersonajes;
