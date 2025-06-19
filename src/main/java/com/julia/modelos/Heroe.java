@@ -6,6 +6,7 @@ package com.julia.modelos;
 public class Heroe extends Personaje {
     private int experiencia;
     private Direccion direccion;
+    private Posicion posicion;
 
     /**
      * Crea un nuevo héroe con nombre y posición inicial.
@@ -21,6 +22,7 @@ public class Heroe extends Personaje {
         this.setDefensa(defensa);
         this.setVelocidad(velocidad);
         this.experiencia = 0;
+        this.posicion= new Posicion(2, 2);
     }
 
     //Getter y setters

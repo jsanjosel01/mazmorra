@@ -75,7 +75,6 @@ public class vista1Controller {
         heroe.setAtaque(ataqueVal);
 
         Proveedor.getInstance().setHeroe(heroe);
-
         SceneManager.getInstance().loadScene(SceneId.VISTA2);
     }
 

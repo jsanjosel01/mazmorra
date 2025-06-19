@@ -48,8 +48,10 @@ public class vista2Controller implements Observador {
         mapa = Proveedor.getInstance().getMapa();
         heroe = Proveedor.getInstance().getHeroe();
         
-        if (mapa == null || heroe == null) {
+        if (mapa == null) {
             System.err.println("No están disponibles...");
+        } if (heroe == null) {
+            System.out.println("el heroe no esta disponible..");
         }
 
         cargarImagenes();
@@ -97,7 +99,8 @@ public class vista2Controller implements Observador {
     //metodo pintar los enemigos
     public void pintarEnemigos() {
     GestorPersonajes gestor = Proveedor.getInstance().getGestorPersonajes();
-
+    //Heroe prota = Proveedor.getInstance().getHeroe();
+    //gestor.insertarPersonaje(prota);
     for (Personaje p : gestor.getPersonajes()) {
         if (!(p instanceof Heroe)) {
             Posicion pos = p.getPosicion();
@@ -105,8 +108,15 @@ public class vista2Controller implements Observador {
             imgEnemigoView.setFitWidth(40);
             imgEnemigoView.setFitHeight(40);
             grid.add(imgEnemigoView, pos.getX(), pos.getY());
+        } else{
+           
         }
     }
+     //Posicion pos = p.getPosicion();
+            ImageView  imgHeroeView = new ImageView(imgHeroeDown); 
+            imgHeroeView.setFitWidth(40);
+            imgHeroeView.setFitHeight(40);
+            grid.add( imgHeroeView, 2, 2);
 }
     
     // ruta de las imagenes
