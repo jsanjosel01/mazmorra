@@ -65,21 +65,18 @@ public class GestorEnemigos {
     }
 
     /**
-     * Mueve todos los enemigos en el escenario. Si el heroe está dentro del
-     * rango de percepción
-     * de un enemigo, este intentará acercarse a él evitando los muros y otras
-     * posiciones ocupadas.
-     * Si no está cerca, el enemigo se moverá aleatoriamente a una celda
-     * transitable.
+     * Mueve todos los enemigos en el escenario. Si el heroe está dentro del rango de percepción
+     * de un enemigo, este intentará acercarse a él evitando los muros y otras posiciones ocupadas.
+     * Si no está cerca, el enemigo se moverá aleatoriamente a una celda transitable.
      * 
      * Un HashSet es una estructura de datos que se utiliza para almacenar elementos
      * únicos y permite búsquedas rápidas. En este caso, lo usamos para rastrear
      * las posiciones ocupadas por los enemigos en el mapa.
      * 
      * @param heroe El heroe del juego.
-     * @param escenario    El escenario del juego.
+     * @param escenario El escenario del juego.
      */
-    public void moverEnemigos(Heroe heroe, LectoraMapa lectoraMapa) {
+    public void moverEnemigos(Heroe heroe, LectoraMapa lectoraMapa) { //MOVER ENEMIGOS
 
         Random rm = new Random();
 

@@ -46,7 +46,7 @@ public class vista2Controller implements Observer {
 
     //IMAGEN DE LA TRAMPA Y MALDICION
     //private Image imgTrampa;
-    private Image imgMaldicion;
+    //private Image imgMaldicion;
 
      /**
      * Contenedor principal horizontal para la vista2, donde se colocan la cuadrícula y paneles de información.
@@ -123,17 +123,17 @@ public class vista2Controller implements Observer {
             // Establecer el tamaño de las celdas
             for (int i = 0; i < motorJuego.getMapa().getAncho(); i++) {
                 ColumnConstraints columnConstraints = new ColumnConstraints();
-                columnConstraints.setMinWidth(50); // Establece el ancho mínimo de cada columna
-                columnConstraints.setPrefWidth(50); // Establece el ancho preferido
-                columnConstraints.setMaxWidth(50); // Establece el ancho máximo
+                columnConstraints.setMinWidth(50); // el ancho mínimo de cada columna
+                columnConstraints.setPrefWidth(50); // el ancho preferido
+                columnConstraints.setMaxWidth(50); // el ancho máximo
                 mainGridPane.getColumnConstraints().add(columnConstraints);
             }
 
             for (int i = 0; i < motorJuego.getMapa().getAlto(); i++) {
                 RowConstraints rowConstraints = new RowConstraints();
-                rowConstraints.setMinHeight(50); // Establece la altura mínima de cada fila
-                rowConstraints.setPrefHeight(50); // Establece la altura preferida
-                rowConstraints.setMaxHeight(50); // Establece la altura máxima
+                rowConstraints.setMinHeight(50); // La altura mínima de cada fila
+                rowConstraints.setPrefHeight(50); // La altura preferida
+                rowConstraints.setMaxHeight(50); // La altura máxima
                 mainGridPane.getRowConstraints().add(rowConstraints);
             }
 

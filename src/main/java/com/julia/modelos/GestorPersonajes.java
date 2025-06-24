@@ -3,7 +3,7 @@ package com.julia.modelos;
 import java.util.HashMap;
 import java.util.Map;
 
-import javafx.scene.image.Image; //IMAGENES
+import javafx.scene.image.Image; //IMAGENES DEL HEROE, ENEMIGOS Y TRAMPA O MALDICION
 /**
  * Clase utilitaria para gestionar la carga y caché de imágenes en el juego.
  * Permite optimizar el rendimiento evitando cargar varias veces la misma imagen.

@@ -5,5 +5,5 @@ package com.julia.modelos;
  * Las celdas son suelo y pared.
  */
 public enum TipoCelda {
-      SUELO,MURO,MALDICION//TRAMPA
+      SUELO,MURO,//MALDICION//TRAMPA
 }
