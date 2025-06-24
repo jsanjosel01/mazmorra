@@ -9,22 +9,28 @@ import java.io.IOException;
 
 /**
  * @author Julia San José León 
+ * Clase principal de la aplicación JavaFX.
+ * Controla el flujo inicial del programa y la gestión de escenas mediante SceneManager.
  * 
  */
 public class App extends Application {
-
-    // Instancia del SceneManager
+    /**
+     * Instancia singleton del SceneManager que gestiona las diferentes escenas de la aplicación.
+     */
     private static SceneManager sceneManager;
 
+    /**
+     * Método llamado al iniciar la aplicación.
+     * Inicializa el SceneManager, registra las escenas disponibles y carga la escena inicial.
+     * @param stage Ventana principal de la aplicación.
+     * @throws IOException Si ocurre un error al cargar las escenas.
+     */
     @Override
     public void start(Stage stage) throws IOException {
-        //Inicializa el SceneManager (singleton)
-        sceneManager = SceneManager.getInstance();
-
         //Registra las escenas principales
+        sceneManager = SceneManager.getInstance();
         sceneManager.setScene(SceneId.BIENVENIDA, "bienvenida");
         sceneManager.setScene(SceneId.VISTA1, "vista1");
-        sceneManager.setScene(SceneId.VISTA2, "vista2");
         sceneManager.init(stage);
 
         //Carga la escena de bienvenida al iniciar
@@ -40,6 +46,10 @@ public class App extends Application {
         sceneManager.loadScene(SceneId.valueOf(fxml.toUpperCase()));
     }
 
+    /**
+     * Método principal que lanza la aplicación JavaFX.
+     * @param args Argumentos de línea de comandos (no utilizados).
+     */
     public static void main(String[] args) {
         launch();
     }

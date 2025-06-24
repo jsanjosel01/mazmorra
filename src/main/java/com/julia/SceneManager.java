@@ -60,11 +60,11 @@ public class SceneManager {
             URL url = App.class.getResource("views/" + fxml + ".fxml");
             FXMLLoader fxmlLoader = new FXMLLoader(url);
             Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 600, 400); // Ajusta el tamaño si lo necesitas
+            Scene scene = new Scene(root, 600, 400);
             scene.setUserData(fxmlLoader); 
-            scenes.put(sceneID, scene); // Almacena la escena en el mapa con el identificador correspondiente
+            scenes.put(sceneID, scene); 
         } catch (IOException e) {
-            e.printStackTrace(); // En caso de error al cargar el FXML
+            e.printStackTrace();
         }
     }
 
@@ -85,16 +85,13 @@ public class SceneManager {
             FXMLLoader loader = (FXMLLoader) scene.getUserData();
             if (loader != null) {
                 Object controller = loader.getController();
-                // Si el controlador tiene un método setData(Object), lo invoca
                 try {
                     controller.getClass().getMethod("setData", Object.class).invoke(controller, data);
                 } catch (Exception e) {
-                    System.err.println("El controlador no tiene método setData(Object) o falló la invocación.");
-                    // e.printStackTrace(); // Descomenta para debug
+                    System.err.println("El controlador no tiene método setData.");
                 }
             }
-
-            stage.setScene(scene); // ¡Esta línea va después del seteo!
+            stage.setScene(scene); 
             stage.show();
         } else {
             throw new IllegalStateException("La escena " + sceneID + " no está configurada.");

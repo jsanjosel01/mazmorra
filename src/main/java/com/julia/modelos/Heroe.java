@@ -1,123 +1,70 @@
 package com.julia.modelos;
 /**
- * Representa un héroe controlado por el jugador en el juego.
+ * Representa un heroe controlado por el jugador en el juego.
  * Hereda de {@link Personaje} y puede ganar experiencia y moverse según una dirección.
  */
 public class Heroe extends Personaje {
-    private int experiencia;
-    private Direccion direccion;
-    private Posicion posicion;
-
-    /**
-     * Crea un nuevo héroe con nombre y posición inicial.
-     *
-     * @param nombre   El nombre del héroe.
-     * @param posicion La posición inicial del héroe.
-     */
-    public Heroe(String nombre, Posicion posicion, int vidaMaxima, int fuerza, int defensa, int velocidad) {
-        super(nombre, posicion);
-        this.setVidaMaxima(vidaMaxima);
-        this.setVidaActual(vidaMaxima);
-        this.setFuerza(fuerza);
-        this.setDefensa(defensa);
-        this.setVelocidad(velocidad);
-        this.experiencia = 0;
-        this.posicion= new Posicion(2, 2);
-    }
-
-    //Getter y setters
-     /**
-     * Obtiene la experiencia acumulada del héroe.
-     *
-     * @return La experiencia actual.
-     */
-    public int getExperiencia(){
-        return this.experiencia;
-    }
-
+    private Direccion direccion = Direccion.ABAJO;
     
     /**
-     * Establece la experiencia del héroe.
-     *
-     * @param experiencia El nuevo valor de experiencia.
+     * Crea una nueva instancia de heroe con los atributos principales.
+     * @param nombre  Nombre del heroe.
+     * @param defensa Valor de defensa.
+     * @param fuerza Valor de fuerza.
+     * @param ataque (No se utiliza directamente, pero se pasa al constructor padre).
+     * @param vida Puntos de vida iniciales.
      */
-    public void setExperiencia(int experiencia){
-        this.experiencia = experiencia;
+    public Heroe(String nombre, int defensa, int fuerza, int ataque, int puntosVida) {
+        super(nombre, defensa, fuerza, ataque, puntosVida);
+        this.nombre = nombre;
     }
 
     /**
-     * Asigna una dirección al héroe para su próximo movimiento.
-     *
-     * @param direccion Dirección hacia la cual se moverá el héroe.
+     * Establece la posición del heroe en el mapa.
+     * @param fila    Nueva fila.
+     * @param columna Nueva columna.
      */
-    public void setDireccion(Direccion direccion){
+    public void setPosicion(int fila, int columna) {
+        this.fila = fila;
+        this.columna = columna;
+    }
+
+    /**
+     * Establece la dirección en la que mira el heroe.
+     * @param direccion Nueva dirección.
+     */
+    public void setDireccion(Direccion direccion) {
         this.direccion = direccion;
     }
 
-     /**
-     * Obtiene la dirección actual del héroe.
-     *
-     * @return La dirección actual o null si no se ha establecido.
-     */
-    public Direccion getDireccion(){
-        return this.direccion;
-    }
-
-    //Mostar datos
     /**
-     * Devuelve una representación en texto del héroe, incluyendo su experiencia.
-     *
-     * @return Cadena con información del héroe.
+     * Obtiene la dirección actual en la que mira el heroe.
+     * @return Dirección actual.
      */
-    @Override
-    public String toString(){
-        return super.toString()+ "{" +
-            " experiencia='" + getExperiencia() + "'" +
-            "}";
+
+    public Direccion getDireccion() {
+        return direccion;
     }
 
-    
-    //Realizar turnos en el mapa
-    
-    /**
-     * Realiza el turno del héroe en el mapa. Se moverá en la dirección indicada si la celda es transitable,
-     * o atacará a un enemigo si hay uno en la posición destino.
-     *
-     * @param mapa El mapa del juego sobre el cual se mueve el héroe.
-     */
-    @Override
-    public void realizarTurno(Mapa mapa){
-        int nuevaX = this.getPosicion().getX();
-        int nuevaY = this.getPosicion().getY();
-        Posicion nuevaPosicion = new Posicion(nuevaX, nuevaY);
+   /**
+     * Reduce los puntos de vida del heroe en la cantidad especificada.
+     * Si los puntos de vida resultan negativos, se ajustan a cero.
+     * @param cantidad Cantidad de puntos de vida a restar.
+     */  
+   public void disminuirPuntosVida(int cantidad){
+        this.puntosVida -= cantidad;
 
-        switch (this.direccion) {
-            case ARRIBA:
-                nuevaY--;
-                break;
-            case ABAJO:
-                nuevaY++;
-                break;
-            case IZQUIERDA:
-                nuevaX--;
-                break;
-            case DERECHA:
-                nuevaX++;
-                break;
-            default:
-                return;
+        if(puntosVida < 0){
+            puntosVida = 0;
         }
-
-        Personaje posibleEnemigo = mapa.getCelda(nuevaX, nuevaY).getPersonaje();
-        if(posibleEnemigo != null){
-            atacar(posibleEnemigo);
-        }else{
-            mapa.moverPersonaje(this, nuevaPosicion);
-        }
-
-        // Resetear la dirección después de realizar el turno
-        direccion = null; 
     }
-
-
-}
+    
+    //Metodo para la maldicion y disminuya la vida al 25%
+    /**public void disminuirMaldicion(){
+        int vidaMaldicion = (super.getVidaMax()*25)/100;
+        this.puntosVida-=vidaMaldicion;
+         if(puntosVida < 0){
+            puntosVida = 0;
+        }
+    }*/
+ }

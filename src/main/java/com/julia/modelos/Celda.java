@@ -6,100 +6,62 @@ package com.julia.modelos;
  */
 
 public class Celda {
-    private boolean transitable;
-    private TipoCelda tipoCelda;
-    private Personaje personaje;
+     private TipoCelda tipo;
+    private boolean ocupado;
 
-    /**
-     * Crea una nueva celda con la transitabilidad y tipo especificado.
-     * @param transitable Indica si la celda puede ser transitada.
-     * @param tipoCelda El tipo de celda.
-     */
-
-    public Celda(boolean transitable, TipoCelda tipoCelda){
-        this.transitable=transitable;
-        this.tipoCelda=tipoCelda;
-    }
-     
-    //Getters and setters
-
-    /**
-     * Verifica si la celda es transitable.
-     * @return true si es transitable, false en caso contrario.
-     */
-    public boolean isTransitable(){
-        return this.transitable;
+/**
+ * Crea una nueva celda con el tipo especificado y la marca como no ocupada.
+ * @param tipo El tipo de la celda.
+ */
+    public Celda(TipoCelda tipo){
+        this.tipo = tipo;
+        this.ocupado = false;
     }
 
-    /**
-     * Método redundante para obtener si es transitable.
-     * @return true si es transitable, false en caso contrario.
-     */
-    public boolean getTransitable(){
-        return this.transitable;
+/**
+ * Obtiene el tipo de la celda.
+ * @return El tipo de la celda.
+ */
+    public TipoCelda getTipo() {
+        return this.tipo;
     }
 
-    /**
-     * Establece si la celda es transitable.
-     * @param transitable Valor booleano de transitabilidad.
-     */
-    public void setTransitable(boolean transitable){
-        this.transitable = transitable;
+
+/**
+ * Establece el tipo de la celda.
+ * @param tipo El nuevo tipo de la celda.
+ */
+    public void setTipo(TipoCelda tipo) {
+        this.tipo = tipo;
+    }
+
+/**
+ *  Indica si la celda está ocupada.
+ * @return true si la celda está ocupada, false en caso contrario.
+ */
+    public boolean isOcupado() {
+        return this.ocupado;
+    }
+
+
+    public boolean getOcupado() {
+        return this.ocupado;
+    }
+
+/**
+ * Establece el estado de ocupación de la celda.
+ * @param ocupado true para marcar la celda como ocupada, false para marcarla como libre.
+ */
+    public void setOcupado(boolean ocupado) {
+        this.ocupado = ocupado;
+    }
+
+/**
+ * Indica si la celda es transitable, es decir, si es de tipo SUELO y no está ocupada.
+ * @return true si la celda es transitable, false en caso contrario.
+ */
+    public boolean esTransitable(){
+        return tipo == TipoCelda.SUELO && !ocupado;
     }
     
-     /**
-     * Obtiene el tipo de celda.
-     * @return El tipo de la celda.
-     */
-    public TipoCelda getTipoCelda(){
-        return tipoCelda;
-    }
-
-    /**
-     * Establece el tipo de celda.
-     * @param tipoCelda El nuevo tipo de celda.
-     */
-    public void setTipoCelda(TipoCelda tipoCelda){
-        this.tipoCelda = tipoCelda;
-    }
-
-    
-    /**
-     * Obtiene el personaje ubicado en esta celda.
-     * @return El personaje, o null si no hay ninguno.
-     */
-    public Personaje getPersonaje(){
-        return personaje;
-    }
-
-     /**
-     * Asigna un personaje a esta celda.
-     * @param personaje El personaje a ubicar en la celda.
-     */
-    public void setPersonaje(Personaje personaje){
-        this.personaje = personaje;
-    }
-
-    /**
-     * Verifica si la celda está ocupada por un personaje.
-     * @return true si hay un personaje, false si está vacía.
-     */
-    public boolean estaOcupada(){
-        return personaje != null;
-    }
-
-    //Mostrar
-    /**
-     * Devuelve una representación en texto de la celda.
-     * @return String representando el estado de la celda.
-     */
-    @Override
-    public String toString() {
-        return "{" +
-            " transitable='" + isTransitable() + "'" +
-            "}";
-    }
-
-   
-
 }

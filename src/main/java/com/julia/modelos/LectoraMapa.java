@@ -3,118 +3,114 @@ package com.julia.modelos;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.julia.App;
 
-public class LectoraMapa {
-    //Leer el archivo, tablero mas enemigos
-
-    private static final String rutaTablero = "dataUrl/tablero.txt";
-    private static final String rutaEnemigos = "dataUrl/enemigos.txt";
+public class LectoraMapa { //MAPA
+    /**
+     * Matriz de celdas que representa el mapa del tablero.
+     */
+    private Celda[][] mapa;
 
     /**
-     * Lee el archivo tablero.txt y construye el objeto Mapa con celdas y personajes.
-     * @throws Exception si hay error leyendo archivos o datos inválidos.
+     * Construye un nuevo lector del tablero y carga el mapa desde el archivo especificado.
+     * @param rutaRelativa rutaRelativa Ruta relativa al archivo del mapa.
+     * @throws IOException Si ocurre algún error al leer el archivo o el formato es incorrecto.
      */
-    public Mapa cargarMapa() throws Exception {
-        List<String> lineas = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                new FileInputStream(new File(App.class.getResource(rutaTablero).toURI()))))) {
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                if (!linea.trim().isEmpty()) {
-                    lineas.add(linea);
-                }
-            }
-        }
-
-        if (lineas.isEmpty()) {
-            throw new Exception("El archivo tablero.txt está vacío o no contiene datos válidos.");
-        }
-
-        int alto = lineas.size();
-        int ancho = lineas.get(0).length();
-
-        // Validar que todas las líneas tengan la misma longitud
-        for (int i = 1; i < alto; i++) {
-            if (lineas.get(i).length() != ancho) {
-                throw new Exception("Línea " + (i + 1) + " tiene una longitud distinta del resto.");
-            }
-        }
-
-        Mapa mapa = new Mapa(ancho, alto);
-
-        for (int y = 0; y < alto; y++) {
-            String fila = lineas.get(y);
-            for (int x = 0; x < ancho; x++) {
-                char simbolo = fila.charAt(x);
-                TipoCelda tipo = TipoCelda.SUELO;
-                switch (simbolo) {
-                    case '.':
-                        tipo = TipoCelda.SUELO;
-                        break;
-                    case '#':
-                        tipo = TipoCelda.MURO;
-                        break;
-                    default:
-                        throw    new IllegalArgumentException("Símbolo no reconocido en mapa: " + simbolo);
-                }
-                mapa.setCelda(x, y, new Celda(tipo.isTransitable(), tipo));
-            }
-        }
-
-        cargarPersonajes(mapa);
-
-        return mapa;
+    public LectoraMapa(String rutaRelativa) throws IOException {
+        leerDesdeArchivo(rutaRelativa);
     }
 
     /**
-     * Lee héroe y enemigos desde enemigos.txt y los agrega al escenario.
-     * @throws Exception si hay error leyendo el archivo o datos inválidos.
+     * Lee el archivo de mapa, interpreta los símbolos y construye la matriz de celdas.
+     * @param path Ruta al archivo de mapa.
+     * @throws IOException Si el archivo no existe, está vacío, tiene líneas de distinta longitud
+     * o contiene símbolos no reconocidos.
      */
-    private void cargarPersonajes(Mapa mapa) throws Exception {
+    private void leerDesdeArchivo(String path) throws IOException {
+
         try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                new FileInputStream(new File(App.class.getResource(rutaEnemigos).toURI()))))) {
-
+            new FileInputStream(new File(App.class.getResource("dataUrl/tablero.txt").toURI()))))) {
+            List<String> lineas = new ArrayList<>();
             String linea;
-            br.readLine();
+
             while ((linea = br.readLine()) != null) {
-                if (linea.trim().isEmpty() || linea.startsWith("nombre")) continue;
-
-                String[] partes = linea.split(",");
-                if (partes.length < 8) continue;
-
-                String nombre = partes[0].trim();
-                int salud = Integer.parseInt(partes[1].trim());
-                int fuerza = Integer.parseInt(partes[2].trim());
-                int defensa = Integer.parseInt(partes[3].trim());
-                int velocidad = Integer.parseInt(partes[4].trim());
-                int percepcion = Integer.parseInt(partes[5].trim());
-                int posX = Integer.parseInt(partes[6].trim());
-                int posY = Integer.parseInt(partes[7].trim());
-
-                Posicion posicion = new Posicion(posX, posY);
-
-                if (!mapa.esPosicionValida(posicion)) {
-                    throw new IllegalArgumentException("Posición inválida para personaje: " + nombre + " en (" + posX + "," + posY + ")");
-                }
-
-               if (nombre.equalsIgnoreCase("Jugador") || nombre.equalsIgnoreCase("Heroe")) {
-                    Heroe heroe = new Heroe(nombre, posicion, salud, fuerza, defensa, velocidad);
-                    mapa.agregarPersonaje(heroe);
-                } else {
-                    Enemigo enemigo = new Enemigo(nombre, posicion, salud, fuerza, defensa, velocidad, percepcion);
-                    mapa.agregarPersonaje(enemigo);
-                }
-
+                lineas.add(linea);
             }
-        }
+            //Elimina líneas vacías
+            lineas.removeIf(l -> l.trim().isEmpty());
 
+            if (lineas.isEmpty()) {
+                throw new IOException("El archivo del mapa está vacío o solo contiene líneas en blanco.");
+            }
+
+            int filas = lineas.size();
+            int columnas = lineas.get(0).length();
+            mapa = new Celda[filas][columnas];
+
+            for (int y = 0; y < filas; y++) {
+                String fila = lineas.get(y);
+
+                if (fila.length() != columnas) {
+                    throw new IOException("Las líneas del mapa no tienen el mismo largo. Línea " + y
+                            + " tiene longitud " + fila.length());
+                }
+                for (int x = 0; x < columnas; x++) {
+                    char simbolo = fila.charAt(x);
+
+                    TipoCelda tipo;
+                    switch (simbolo) {
+                        case '.':
+                            tipo = TipoCelda.SUELO;
+                            break;
+                        case '#':
+                            tipo = TipoCelda.MURO;
+                            break;
+                        //case '?': tipo = TipoCelda.TRAMPA; 
+                            //break;
+                        //case '!': tipo = TipoCelda.MALDICION; 
+                            //break;
+                            
+                        default:
+                            throw new IllegalArgumentException("Símbolo no reconocido: " + simbolo);
+                    }
+                    mapa[y][x] = new Celda(tipo);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new IOException("Error leyendo el mapa: " + e.getMessage(), e);
+        }
     }
-}                
-            
+
+    /**
+     * Devuelve la celda en la posición indicada.
+     * @param fila Índice de la fila.
+     * @param columna  Índice de la columna.
+     * @return Celda en la posición dada.
+     */
+    public Celda getCelda(int fila, int columna) {
+        return mapa[fila][columna];
+    }
+
+    /**
+     * 
+     * @return Número de filas del mapa (alto del escenario).
+     */
+    public int getAlto() {
+        return mapa.length;
+    }
+
+    /**
+     * 
+     * @return Número de columnas del mapa (ancho del escenario).
+     */
+    public int getAncho() {
+        return mapa[0].length;
+    }
+
+}

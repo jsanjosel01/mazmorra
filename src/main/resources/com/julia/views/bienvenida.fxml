@@ -5,15 +5,17 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ancho" prefHeight="373.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.julia.controllador.bienvenidaController">
+<AnchorPane fx:id="ancho" prefHeight="378.0" prefWidth="782.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.julia.controllador.bienvenidaController">
     <children>
-        <ImageView fitHeight="429.0" fitWidth="858.0" layoutY="-33.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../imagenes/imagenes/bienvenido.jpg" />
-            </image>
-        </ImageView>
+      <ImageView fitHeight="400.0" fitWidth="791.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../imagenes/imagenes/bienvenido.jpg" />
+         </image>
+      </ImageView>
+      <VBox layoutX="-3.0" prefHeight="392.0" prefWidth="782.0" />
         <Label layoutX="42.0" layoutY="26.0" prefHeight="40.0" prefWidth="178.0" style="-fx-font-size: 28px; -fx-font-weight: bold;" text="Welcome to" textAlignment="CENTER" textFill="WHITE">
             <font>
                 <Font name="Berlin Sans FB Demi Bold" size="13.0" />
@@ -24,7 +26,7 @@
                 <Font name="Berlin Sans FB Demi Bold" size="13.0" />
             </font>
         </Label>
-        <Button fx:id="btnEmpezar" layoutX="429.0" layoutY="301.0" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: #ccb216;" text=" Play now!" textAlignment="CENTER">
+        <Button fx:id="startbutton" layoutX="448.0" layoutY="339.0" prefHeight="40.0" prefWidth="109.0" style="-fx-background-color: orange;" text="PLAY" textAlignment="CENTER">
             <font>
                 <Font name="Berlin Sans FB Demi Bold" size="18.0" />
             </font>

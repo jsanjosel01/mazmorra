@@ -1,372 +1,201 @@
 package com.julia.modelos;
 
-import java.util.List;
-import java.util.Objects;
-
-import com.julia.interfaces.Observador;
-import com.julia.interfaces.Observable;
-
 /**
  * Clase abstracta que representa un personaje en el juego.
  * Define atributos y comportamientos comunes para héroes y enemigos.
  * Implementa el patrón de observador para notificar cambios en el estado del personaje.
  */
-public abstract class Personaje implements Observable {
+ abstract class Personaje {
+    /**Nombre del personaje.  */
+    protected String nombre;
+    /**Puntos de vida actuales del personaje. */
+    protected int puntosVida;
+    /**Valor de defensa del personaje, reduce el daño recibido. */
+    protected int defensa;
+    /**Valor de fuerza, determina el daño que puede infligir. */
+    protected int fuerza;
+    /**Fila actual en el mapa. */
+    protected int fila ;
+    /** Columna actual en el mapa. */
+    protected int columna;
 
-    private String nombre;
-    private int id;
-    private static int identificador =0;
-    private int vidaMaxima;
-    private int vidaActual;
-    private int velocidad;
-    private int ataque;
-    private int defensa;
-    private int nivel;
-    private Posicion posicion;
-    private int fuerza; 
-    private List<Observador> observadores;
+    protected int vidaMax; //vida maxima
 
-    
-     /**
-     * Constructor que inicializa un personaje con nombre y posición.
-     *
+    /**
+     * Constructor para inicializar los atributos principales del personaje.
      * @param nombre Nombre del personaje.
-     * @param posicion Posición inicial del personaje en el mapa.
+     * @param defensa Valor de defensa.
+     * @param fuerza Valor de fuerza.
+     * @param fila Fila inicial en el mapa.
+     * @param vida Puntos de vida iniciales.
      */
-    public Personaje(String nombre, Posicion posicion){
-        this.nombre=nombre;
-        this.posicion=posicion;
-        this.id = identificador++;
-        this.vidaMaxima=100;
-        this.vidaActual=this.vidaMaxima;
-        this.velocidad=10;
-        this.ataque=10;
-        this.nivel=1;
-        this.fuerza=10; 
-        this.nivel=1;
+    Personaje(String nombre, int defensa, int fuerza, int fila, int vida){
+        this.nombre = nombre;
+        this.defensa = defensa;
+        this.fuerza = fuerza;
+        this.fila = fila;
+        this.puntosVida = vida;
+        this.vidaMax=vida;
     }
 
-    // Métodos getters y setters
-
-   /**
-     * Obtiene el nombre del personaje.
-     *
+    /**
+     * 
      * @return El nombre del personaje.
      */
     public String getNombre() {
-        return this.nombre;
+        return nombre;
     }
 
-     /**
-     * Establece el nombre del personaje.
-     *
+    /**
+     * 
      * @param nombre Nuevo nombre del personaje.
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-     /**
-     * Obtiene el identificador único del personaje.
-     *
-     * @return ID del personaje.
+    /**
+     * 
+     * @return La fila actual del personaje en el mapa.
      */
-    public int getId() {
-        return this.id;
+    public int getFila() {
+        return this.fila;
     }
 
     /**
-     * Obtiene la vida máxima del personaje.
-     *
-     * @return Vida máxima.
+     * 
+     * @param fila Nueva fila en el mapa.
      */
-    public int getVidaMaxima() {
-        return this.vidaMaxima;
+    public void setFila(int fila) {
+        this.fila = fila;
     }
 
     /**
-     * Establece la vida máxima del personaje.
-     *
-     * @param vidaMaxima Nueva vida máxima.
+     * 
+     * @return La columna actual del personaje en el mapa. 
      */
-    public void setVidaMaxima(int vidaMaxima) {
-        this.vidaMaxima = vidaMaxima;
-    }
-
-     /**
-     * Obtiene la vida actual del personaje.
-     *
-     * @return Vida actual.
-     */
-    public int getVidaActual() {
-        return this.vidaActual;
+    public int getColumna() {
+        return this.columna;
     }
 
     /**
-     * Establece la vida actual del personaje.
-     *
-     * @param vidaActual Nueva vida actual.
+     * 
+     * @param columna Nueva columna en el mapa. 
      */
-    public void setVidaActual(int vidaActual) {
-        this.vidaActual = vidaActual;
+    public void setColumna(int columna) {
+        this.columna = columna;
     }
 
     /**
-     * Obtiene la velocidad del personaje.
-     *
-     * @return Velocidad.
+     * 
+     * @return Los puntos de vida actuales del personaje.
      */
-    public int getVelocidad() {
-        return this.velocidad;
-    }
-
-      /**
-     * Establece la velocidad del personaje.
-     *
-     * @param velocidad Nueva velocidad.
-     */
-    public void setVelocidad(int velocidad) {
-        this.velocidad = velocidad;
+    public int getPuntosVida() {
+        return puntosVida;
     }
 
     /**
-     * Obtiene el ataque del personaje.
-     *
-     * @return Valor de ataque.
+     * 
+     * @param puntosVida Nuevos puntos de vida. 
      */
-    public int getAtaque() {
-        return this.ataque;
-    }
-
-     /**
-     * Establece el valor de ataque del personaje.
-     *
-     * @param ataque Nuevo valor de ataque.
-     */
-    public void setAtaque(int ataque) {
-        this.ataque = ataque;
+    public void setPuntosVida(int puntosVida) {
+        this.puntosVida = puntosVida;
     }
 
     /**
-     * Obtiene la defensa del personaje.
-     *
-     * @return Valor de defensa.
+     * 
+     * @return Valor de defensa del personaje.
      */
     public int getDefensa() {
-        return this.defensa;
+        return defensa;
     }
 
-     /**
-     * Establece el valor de defensa del personaje.
-     *
-     * @param defensa Nueva defensa.
+    /**
+     * 
+     * @param defensa Nuevo valor de defensa.
      */
     public void setDefensa(int defensa) {
         this.defensa = defensa;
     }
 
-     /**
-     * Obtiene el nivel del personaje.
-     *
-     * @return Nivel actual.
-     */
-    public int getNivel() {
-        return this.nivel;
-    }
-
     /**
-     * Establece el nivel del personaje.
-     *
-     * @param nivel Nuevo nivel.
-     */
-    public void setNivel(int nivel) {
-        this.nivel = nivel;
-    }
-
-    /**
-     * Obtiene la posición actual del personaje.
-     *
-     * @return Objeto Posicion.
-     */
-    public Posicion getPosicion() {
-        return posicion;
-    }
-
-     /**
-     * Establece la posición del personaje.
-     *
-     * @param posicion Nueva posición.
-     */
-    public void setPosicion(Posicion posicion) {
-        this.posicion = posicion;
-    }
-
-     /**
-     * Obtiene la fuerza del personaje.
-     *
-     * @return Valor de fuerza.
+     * 
+     * @return Valor de fuerza del personaje.
      */
     public int getFuerza() {
         return fuerza;
     }
 
-     /**
-     * Establece la fuerza del personaje.
-     *
-     * @param fuerza Nueva fuerza.
+    /**
+     * 
+     * @param fuerza Nuevo valor de fuerza. 
      */
     public void setFuerza(int fuerza) {
         this.fuerza = fuerza;
     }
 
-    //Mostrar los datos
-     /**
-     * Devuelve una representación en cadena del personaje.
-     *
-     * @return Cadena con los atributos principales del personaje.
+    public int getVidaMax(){
+        return vidaMax;
+    }
+
+    /**
+     * Calcula y actualiza los puntos de vida del personaje tras recibir un ataque.
+     * 
+     * @param danio es un parametro de entrada que se resta, de la defensa para obtener el daño real
+     * es lo que une entre puntos de vida y ataque (fuerza):Con el ataque se incrementa el numero de daños(guardado en daño real) 
+     * y asu vez se decrementa estos puntos a puntosVida
+     * si tenemos 15 de puntosVida , y 5 de defensa , y me atacan con 10 de fuerza , yo(protagonista) defenderia 5, pero los otros
+     * 5 se incrementan en puntosDanio q asu vez se restan de sus puntosVida, entonces nos quedaria 10 de puntosVida.
+     */
+
+    public void CalcularPuntosVida(int danio) {
+        //int danioReal = Math.max(danio - defensa, 0); // asegura que el daño no sea negativo
+        int danioReal = (danio - defensa);
+        puntosVida -= danioReal; // Resta el daño real de los puntos de vida
+        
+        if (puntosVida < 0) {
+            puntosVida = 0; // Asegura que los puntos de vida no sean negativos
+        }
+    }
+
+    /**
+     * Indica si el personaje sigue vivo (puntos de vida mayores a cero).
+     * @return true si el personaje está vivo, false si ha sido derrotado.
+     */
+    public boolean estaVivo(){ 
+         return puntosVida > 0;
+    }
+
+    /**
+     * Calcula el daño base que puede infligir el personaje.
+     * Por defecto, es igual al atributo fuerza.
+     * 
+     * @return retorna fuerza porq es la forma en la q se calcula el daño , el cual esta relacionado con los puntos de vida
+     */
+     public int calcularDanio(){
+        return fuerza; 
+    }
+
+    /**
+     * Establece la posición del personaje en el mapa.
+     * @param fila Nueva fila.
+     * @param columna Nueva columna.
+     */
+    public void setPosicion(int fila, int columna) {
+        this.fila = fila;
+        this.columna = columna;
+    }
+
+    /**
+     * Devuelve una representación en texto del personaje y sus atributos principales.
+     * @return String descriptivo del personaje.
      */
     @Override
     public String toString() {
-        return "{" +
-            " nombre='" + getNombre() + "'" +
-            ", id='" + getId() + "'" +
-            ", vidaMaxima='" + getVidaMaxima() + "'" +
-            ", vidaActual='" + getVidaActual() + "'" +
-            ", velocidad='" + getVelocidad() + "'" +
-            ", ataque='" + getAtaque() + "'" +
-            ", defensa='" + getDefensa() + "'" +
-            ", nivel='" + getNivel() + "'" +
-            "}";
+        return "Personaje [nombre=" + nombre + ", puntosVida=" + puntosVida + ", defensa=" + defensa + ", fuerza="
+                + fuerza + ", ]";
     }
+ }
 
-    //Métodos
-    //1. Mover. 
 
-      /**
-     * Mueve al personaje en la dirección especificada.
-     *
-     * @param direccion Dirección a la que se moverá el personaje.
-     */
-    public void mover(Direccion direccion) {
-        
-        if (direccion == Direccion.ARRIBA) {
-            this.posicion.setY(this.posicion.getY() - 1);
-        } else if (direccion == Direccion.ABAJO) {
-            this.posicion.setY(this.posicion.getY() + 1);
-        } else if (direccion == Direccion.IZQUIERDA) {
-            this.posicion.setX(this.posicion.getX() - 1);
-        } else if (direccion == Direccion.DERECHA) {
-            this.posicion.setX(this.posicion.getX() + 1);
-        }
-    }
 
-    //2. Atacar. Se ejecuta un ataque
-
-     /**
-     * Ataca a otro personaje, calculando y aplicando daño según el ataque y defensa.
-     *
-     * @param objetivo Personaje que recibe el ataque.
-     */
-    public void atacar(Personaje objetivo) {
-        int danio = Math.max(0, this.ataque - objetivo.getDefensa());
-        objetivo.recibirDanio(danio);
-    }
-
-    //3. Recibir daño. Se reduce la vida
-
-    /**
-     * Aplica daño al personaje reduciendo su vida actual.
-     *
-     * @param danio Cantidad de daño recibido.
-     */
-    public void recibirDanio(int danio) {
-        this.vidaActual -= danio;
-        if (this.vidaActual < 0) {
-            this.vidaActual = 0;
-        }
-        notificarObservadores();
-    }
-
-    //4. Tiene vida, esta vivo. Comprueba si el personaje tiene vida.
-
-    /**
-     * Indica si el personaje sigue con vida.
-     *
-     * @return true si la vida actual es mayor que cero, false en caso contrario.
-     */
-    public boolean estaVivo() {
-        return this.vidaActual > 0;
-    }
-
-    //5. Calcular la distancia, la posicion de los personajes
-
-     /**
-     * Calcula la distancia Manhattan entre este personaje y otro.
-     *
-     * @param otra Otro personaje.
-     * @return Distancia entre los dos personajes.
-     */
-    public int calcularDistancia(Personaje otra) {
-        return Math.abs(this.posicion.getX() - otra.getPosicion().getX()) +
-               Math.abs(this.posicion.getY() - otra.getPosicion().getY());
-    }
-
-    public abstract void realizarTurno(Mapa mapa);
-    /**
-     * Verifica si dos personajes son iguales por su ID.
-     *
-     * @param o Objeto a comparar.
-     * @return true si tienen el mismo ID, false en caso contrario.
-     */
-
-    //6. equals y hashcode.
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Personaje)) return false;
-        Personaje personaje = (Personaje) o;
-        return id == personaje.id;
-    }
-
-    /**
-     * Devuelve el hashcode del personaje basado en su ID.
-     *
-     * @return Código hash del personaje.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    /**
-     * Agrega un observador al personaje.
-     *
-     * @param o Observador a agregar.
-     */
-	@Override
-	public void agregarObservador(Observador o) {
-		observadores.add(o);
-	}
-
-    /**
-     * Elimina un observador del personaje.
-     *
-     * @param o Observador a eliminar.
-     */
-	@Override
-	public void eliminarObservador(Observador o) {
-		observadores.remove(o);
-	}
-
-     /**
-     * Notifica a todos los observadores sobre un cambio en el estado del personaje.
-     */
-	@Override
-	public void notificarObservadores() {
-		for (Observador o : observadores) {
-            o.actualizar();
-        }
-	}
-
-    
-}

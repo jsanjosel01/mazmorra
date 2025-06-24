@@ -10,75 +10,89 @@ public class Enemigo extends Personaje {
     private int percepcion;
     private Direccion direccion;
 
-    /**
-     * Constructor de Enemigo.
-     * 
-     * @param nombre Nombre del enemigo.
-     * @param posicion Posición inicial en el mapa.
-     * @param vidaMaxima Vida máxima del enemigo.
-     * @param fuerza Fuerza de ataque.
-     * @param defensa Defensa.
-     * @param velocidad Velocidad de movimiento.
-     * @param percepcion Rango de percepción para detectar héroes u otros personajes.
-     */
-    public Enemigo(String nombre, Posicion posicion, int vidaMaxima, int fuerza, int defensa, int velocidad, int percepcion) {
-        super(nombre, posicion);
-        this.setVidaMaxima(vidaMaxima);
-        this.setVidaActual(vidaMaxima);
-        this.setFuerza(fuerza);
-        this.setDefensa(defensa);
+/**
+ * Crea una instancia de Enemigo con parámetros específicos.
+ * @param tipo Tipo/clasificación del enemigo
+ * @param x Posición inicial en el eje X (columna)
+ * @param y Posición inicial en el eje Y (fila)
+ * @param vida Puntos de vida iniciales
+ * @param fuerza Capacidad de daño en ataques
+ * @param defensa Reducción de daño recibido
+ * @param velocidad Casillas que puede moverse por turno
+ * @param percepcion Rango de detección del jugador (en casillas)
+ */
+    public Enemigo(String tipo, int x, int y, int vida, int fuerza, int defensa, int velocidad, int percepcion) {
+        super(tipo, defensa, fuerza, 0, vida);
         this.velocidad = velocidad;
         this.percepcion = percepcion;
+        this.fila = y;
+        this.columna = x;
         this.direccion = Direccion.ABAJO; 
-    }
-
-    //Getters y setters
-    public int getVelocidad(){
-        return velocidad;
-    }
-
-    public void setVelocidad(int velocidad){
-        this.velocidad = velocidad;
-    }
-
-    public int getPercepcion(){
-        return percepcion;
-    }
-
-    public void setPercepcion(int percepcion){
-        this.percepcion = percepcion;
-    }
-
-    public Direccion getDireccion(){
-        return direccion;
-    }
-
-    public void setDireccion(Direccion direccion){
-        this.direccion = direccion;
-    }
-
-    //Mostrar
-    @Override
-    public String toString(){
-        return "Enemigo{" +
-               "nombre='" + getNombre() + '\'' +
-               ", posicion=" + getPosicion() +
-               ", vidaActual=" + getVidaActual() +
-               ", vidaMaxima=" + getVidaMaxima() +
-               ", fuerza=" + getFuerza() +
-               ", defensa=" + getDefensa() +
-               ", velocidad=" + velocidad +
-               ", percepcion=" + percepcion +
-               ", direccion=" + direccion +
-               '}';
-    }
-
-    //Hacer el turno del enemigo
-    @Override
-    public void realizarTurno(Mapa mapa){
 
     }
+
+    /**
+     * 
+     * @return Velocidad de movimiento en casillas por turno
+     */
+        public int getVelocidad() {
+            return this.velocidad;
+        }
+
+    /**
+     * 
+     * @param velocidad Nueva velocidad de movimiento (debe ser ≥0)
+     */
+        public void setVelocidad(int velocidad) {
+            this.velocidad = velocidad;
+        }
+
+    /**
+     * 
+     * @return Rango de percepción para detectar objetivos (en casillas)
+     */
+        public int getPercepcion() {
+            return percepcion;
+        }
+
+    /**
+     * 
+     * @param percepcion Nuevo rango de percepción (debe ser ≥0)
+     */
+        public void setPercepcion(int percepcion) {
+            this.percepcion = percepcion;
+        }
+
+    /**
+     * 
+     * @param direccion Nueva dirección a la que mira el enemigo
+     */
+        public void setDireccion(Direccion direccion) {
+            this.direccion = direccion;
+        }
+
+    /**
+     * 
+     * @return Dirección actual a la que mira el enemigo
+     */
+        public Direccion getDireccion() {
+            return direccion;
+        }
+
+    /**
+     * @return Representación en String del enemigo con sus atributos clave
+     * @implSpec Formato: 
+     * "Enemigo [nombre=[tipo], vida=[puntosVida], pos=([fila],[columna]), fuerza=[fuerza], 
+     * defensa=[defensa], velocidad=[velocidad], percepcion=[percepcion]]"
+     */
+        @Override
+        public String toString() {
+            return "Enemigo [nombre=" + nombre + ", vida=" + puntosVida + ", pos=(" + fila + "," + columna + "), fuerza=" + fuerza +
+                    ", defensa=" + defensa + ", velocidad=" + velocidad + ", percepcion=" + percepcion + "]";
+        }
+
+        public int getVida() {
+            return this.puntosVida;
+        }
+        
 }
-
-
-

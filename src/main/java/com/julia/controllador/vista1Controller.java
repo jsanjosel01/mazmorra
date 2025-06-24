@@ -1,86 +1,97 @@
 package com.julia.controllador;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
-import com.julia.App;
 import com.julia.SceneId;
 import com.julia.SceneManager;
+import com.julia.modelos.MotorJuego;
 import com.julia.modelos.Heroe;
-import com.julia.modelos.Posicion;
 import com.julia.modelos.Proveedor;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 
+import javafx.scene.control.Button;
+
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+/**
+ * Controlador para la vista1 donde se configura el héroe y se inicia el juego.
+ */
 public class vista1Controller {
-
+    /**
+     * Campo de texto para ingresar el nombre del héroe.
+     */
     @FXML
-    private TextField nombreField;
-
+    private TextField nombre;
+     /**
+     * Campo de texto para ingresar la defensa del héroe.
+     */
     @FXML
     private TextField defensa;
-
-    @FXML
-    private TextField velocidad;
-
-    @FXML
-    private TextField ataque;
-
+     /**
+     * Campo de texto para ingresar la fuerza del héroe.
+     */
     @FXML
     private TextField fuerza;
-
+    /**
+     * Campo de texto para ingresar la vida del héroe.
+     */
+    @FXML
+    private TextField vida;
+    /**
+     * Botón para iniciar el juego después de configurar el héroe.
+     */
     @FXML
     private Button startButton;
-
+    /**
+     * Panel principal de la vista1.
+     */
+    @FXML
+    private AnchorPane Vista1;
+    
+    /**
+     * Método que se ejecuta automáticamente al cargar la vista,
+     * configura el evento del botón para crear el héroe y empezar el juego.
+     */
     @FXML
     private void initialize() {
-        startButton.setOnAction(event -> onStartClicked());
+        startButton.setOnAction(event -> {
+         try {
+                String nombreField = nombre.getText();
+                int vidafield = Integer.parseInt(vida.getText());
+                int defensafield = Integer.parseInt(defensa.getText());
+                int fuerzafield = Integer.parseInt(fuerza.getText());
+
+                // Valida que los puntos sumen exactamente 100 y que no sean negativos
+                if (vidafield < 0 || defensafield < 0 || fuerzafield < 0 || (vidafield + defensafield + fuerzafield) != 100) {
+                    mostrarError("Error", "Los puntos deben sumar 100.");
+                    return;
+                }
+                // Crea un nuevo héroe
+                Heroe heroe = new Heroe(nombreField, defensafield, fuerzafield, fuerzafield, vidafield);
+                // Inicializa el motor de juego con el mapa y el héroe
+                MotorJuego motorJuego = new MotorJuego("/dataUrl/escenario.txt", heroe);
+                Proveedor.getInstance().inicializar(heroe, motorJuego);
+                
+                // Cambia la escena a la vista2 donde se desarrolla el juego
+                SceneManager.getInstance().setScene(SceneId.VISTA2, "Vista2");
+                SceneManager.getInstance().loadScene(SceneId.VISTA2);
+
+            } catch (NumberFormatException e) {
+                mostrarError("Error de formato", "Ingrese valores numéricos válidos.");
+            } catch (Exception e) {
+                e.printStackTrace();
+                mostrarError("Error", "Ocurrió un error..");
+            }
+        });
     }
 
-     private void onStartClicked() {
-        String nombre = nombreField.getText().trim();
-        if (nombre.isEmpty()) {
-            mostrarError("Debes darle un nombre al personaje.");
-            return;
-        }
-
-        int defensaVal, velocidadVal, ataqueVal, fuerzaVal;
-
-        try {
-            defensaVal = Integer.parseInt(defensa.getText().trim());
-            velocidadVal = Integer.parseInt(velocidad.getText().trim());
-            ataqueVal = Integer.parseInt(ataque.getText().trim());
-            fuerzaVal = Integer.parseInt(fuerza.getText().trim());
-        } catch (NumberFormatException e) {
-            mostrarError("Todos los atributos deben ser números enteros válidos.");
-            return;
-        }
-
-        if (defensaVal < 0 || velocidadVal < 0 || ataqueVal < 0 || fuerzaVal < 0) {
-            mostrarError("Los atributos no pueden ser negativos.");
-            return;
-        }
-
-        int suma = defensaVal + velocidadVal + ataqueVal + fuerzaVal;
-        if (suma != 40) {
-            mostrarError("La suma debe ser 40. Actualmente es: " + suma);
-            return;
-        }
-
-        Posicion posicionInicial = new Posicion(0, 0);
-        int vidaMaxima = 100;
-
-        Heroe heroe = new Heroe(nombre, posicionInicial, vidaMaxima, fuerzaVal, defensaVal, velocidadVal);
-        heroe.setAtaque(ataqueVal);
-
-        Proveedor.getInstance().setHeroe(heroe);
-        SceneManager.getInstance().loadScene(SceneId.VISTA2);
-    }
-
-    private void mostrarError(String mensaje) {
+    /**
+     * Muestra un cuadro de diálogo de error con el título y mensaje especificados.
+     * @param titulo Título de la ventana de error.
+     * @param mensaje Mensaje a mostrar en el cuadro de diálogo.
+     */
+    private void mostrarError(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error de validación");
+        alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();

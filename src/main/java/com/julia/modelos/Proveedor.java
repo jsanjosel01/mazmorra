@@ -1,70 +1,92 @@
 package com.julia.modelos;
 
-import java.util.ArrayList;
-
 public class Proveedor {
-  private static Proveedor instance;
-  private GestorPersonajes gestorPersonajes;
-  private Heroe heroe;
-  private Mapa mapa;
+   /** Instancia única de la clase Proveedor (patrón Singleton). */
+    private static Proveedor instance;
+    /** Instancia compartida del heroe. */
+    private Heroe heroe;
+    /** Instancia compartida del gestor de enemigos. */
+    private GestorEnemigos gestorEnemigos;
+    /** Instancia compartida del motor del juego.  */
+    private MotorJuego motorJuego;
  
-
-  private Proveedor() {
-      this.gestorPersonajes = new GestorPersonajes();
-        try {
-          this.mapa = new LectoraMapa().cargarMapa();
-          //this.heroe = new Heroe();
-          cargarEnemigos();
-
-        } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
-
-    public static Proveedor getInstance() {
-      if (instance == null) {
-        instance = new Proveedor();
-      }
-      return instance;
+    /**
+     * Constructor privado para evitar la creación de múltiples instancias.
+     * Inicializa el gestor de enemigos.
+     */
+    private Proveedor(){
+        gestorEnemigos = new GestorEnemigos();
     }
     
-
-      public void cargarEnemigos() {
-        String rutaArchivo = "/com/julia/dataUrl/enemigos.txt";
-
-        ArrayList<Enemigo> enemigosDesdeArchivo = GestorEnemigos.cargarEnemigosDesdeRecurso(rutaArchivo);
-
-        for (Enemigo enemigo : enemigosDesdeArchivo) {
-            gestorPersonajes.insertarPersonaje(enemigo);
+    /**
+     * Obtiene la instancia única de Proveedor.
+     * Si no existe, la crea.
+     * @return Instancia única de Proveedor.
+     */
+    public static Proveedor getInstance(){
+        if (instance == null) {
+            instance = new Proveedor();
         }
+        return instance;
     }
 
-  
+    /**
+     * Inicializa el heroe y el motor del juego en el proveedor.
+     * @param heroe Instancia del heroe.
+     * @param motorJuego Instancia del motor del juego.
+     */
+    public void inicializar(Heroe heroe, MotorJuego motorJuego) {
+        this.heroe = heroe;
+        this.motorJuego = motorJuego;
+    }
 
-  public GestorPersonajes getGestorPersonajes() {
-    return gestorPersonajes;
-  }
+    /**
+    * Establece el heroe compartido en la aplicación.
+    * Este método debe ser llamado antes de usar getHeroe().
 
-  public void setGestorPersonajes(GestorPersonajes gestorPersonajes) {
-    this.gestorPersonajes = gestorPersonajes;
-  }
+    * @param heroe Instancia del heroe.
+    */
+    public void setHeroe(Heroe heroe){
+        this.heroe = heroe;
+    }
 
-  public Heroe getHeroe() {
-    return this.heroe;
-  }
+    /**
+     * Obtiene el heroe compartido.
+     * @return Instancia del heroe.
+     * @throws IllegalStateException Si el heroe no ha sido inicializado.
+     */
+    public Heroe getHeroe() {
+        if (heroe == null) {
+            throw new IllegalStateException("El Heroe no ha sido inicializado.");
+        }
+        return heroe;
+    }
 
-  public void setHeroe(Heroe heroe) {
-    this.heroe = heroe;
-  }
+    /**
+     * Obtiene el motor del juego compartido.
+     * @return Instancia del motor del juego.
+     * @throws IllegalStateException Si el motor del juego no ha sido inicializado.
+     */
+    public MotorJuego getMotorJuego() {
+        if (motorJuego == null) {
+            throw new IllegalStateException("El MotorJuego no ha sido inicializado.");
+        }
+        return motorJuego;
+    }
 
-  //Getters y setters Mapa
-   public Mapa getMapa() {
-    return this.mapa;
-  }
+    /**
+     * Obtiene el gestor de enemigos compartido.
+     * @return Instancia del gestor de enemigos.
+     */
+    public GestorEnemigos getGestorEnemigos(){
+        return gestorEnemigos;
+    }
 
-  public void setMapa(Mapa mapa) {
-    this.mapa = mapa;
-  }
-
-
+    /**
+     *  Establece el motor del juego compartido en la aplicación.
+     * @param motorJuego Instancia del motor del juego.
+     */
+    public void setMotorJuego(MotorJuego motorJuego) {
+        this.motorJuego = motorJuego;
+    }
 }

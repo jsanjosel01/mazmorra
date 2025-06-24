@@ -1,157 +1,243 @@
 package com.julia.modelos;
 
-import java.util.Map;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import com.julia.interfaces.Observer;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
-public class MotorJuego {
- private Mapa mapa;
+public class MotorJuego { //CAMBIOS EN EL JUEGO
+    /**
+     * Instancia del héroe principal del juego.
+     */
+    private Heroe heroe;
+    /**
+     * Gestor que administra la lista y comportamiento de los enemigos en el juego.
+     */
+    private GestorEnemigos gestorEnemigos;
+    /**
+     * Objeto encargado de la lectura y carga del mapa del juego.
+     */
+    private LectoraMapa mapa;
+    /**
+     * Lista de observadores que serán notificados ante cambios en el modelo (patrón
+     * Observer).
+     */
+    private List<Observer> observadores = new ArrayList<>();
 
-    public MotorJuego(Mapa mapa){
-        this.mapa = mapa;
+    /**
+     * Crea un nuevo motor de juego, carga el mapa y posiciona al heroe.
+     * 
+     * @param rutaMapa Ruta al archivo del mapa.
+     * @param heroe    Instancia del heroe.
+     * @throws RuntimeException Si ocurre un error al cargar el mapa.
+     */
+    public MotorJuego(String rutaMapa, Heroe heroe) {
+        this.heroe = heroe;
+        try {
+            this.mapa = new LectoraMapa(rutaMapa);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al cargar el mapa: " + e.getMessage());
+        }
+
+        int[] posInicial = encontrarPosicionInicial();
+        this.heroe.setPosicion(posInicial[0], posInicial[1]);
+
+        this.gestorEnemigos = new GestorEnemigos();
+        notifyObservers();
     }
 
-    //El heroe se mueve
-    public boolean moverHeroe(Direccion direccion){
-        Heroe heroe = mapa.getHeroe();
-        if (heroe == null || !heroe.estaVivo()) return false;
-
-        Posicion nuevaPos = calcularNuevaPosicion(heroe.getPosicion(), direccion);
-
-        if (!mapa.esPosicionValida(nuevaPos)){
-            return false;
-        }
-
-        Personaje personajeEnDestino = mapa.getPosicionesPersonajes().get(nuevaPos);
-        if (personajeEnDestino instanceof Enemigo){
-           
-            combate(heroe, (Enemigo) personajeEnDestino);
-
-            if (!personajeEnDestino.estaVivo()){
-                mapa.getPosicionesPersonajes().remove(nuevaPos);
-                Celda celdaDestino = mapa.getCelda(nuevaPos.getX(), nuevaPos.getY());
-                if (celdaDestino != null) celdaDestino.setPersonaje(null);
-            }
-            return heroe.estaVivo();
-        } else {
-            return mapa.moverPersonaje(heroe, nuevaPos);
-        }
-    }
-
-    //Mueve todos los enemigos
-    public void moverEnemigos(){
-        Map<Posicion, Personaje> copiaPersonajes = Map.copyOf(mapa.getPosicionesPersonajes());
-        for (Personaje personaje : copiaPersonajes.values()){
-            if (personaje instanceof Enemigo && personaje.estaVivo()){
-                moverEnemigo((Enemigo) personaje);
-            }
-        }
-    }
-
-    private void moverEnemigo(Enemigo enemigo){
-        Posicion posEnemigo = enemigo.getPosicion();
-        Heroe heroe = mapa.getHeroe();
-
-        if (heroe == null) return;
-
-        int distancia = distanciaManhattan(posEnemigo, heroe.getPosicion());
-
-        Posicion nuevaPos = null;
-        if (distancia <= 5) {
-            nuevaPos = moverHacia(enemigo, heroe.getPosicion());
-        } else {
-            nuevaPos = moverAleatorio(enemigo);
-        }
-
-        if (nuevaPos != null && nuevaPos.equals(heroe.getPosicion())){
-            combate(enemigo, heroe);
-        }
-    }
-
-    //Combate entre atacante y defensor
-    private void combate(Personaje atacante, Personaje defensor){
-        int danio = atacante.getAtaque() - defensor.getDefensa();
-        if (danio < 0) danio = 0;
-
-        defensor.setVidaActual(defensor.getVidaActual() - danio);
-
-        System.out.println(atacante.getNombre() + " ataca a " + defensor.getNombre() + " con daño: " + danio);
-
-        if (!defensor.estaVivo()) {
-            System.out.println(defensor.getNombre() + " ha muerto.");
-        }
-    }
-
-    //Mueve un enemigo hacia una posición destino, si puede
-    private Posicion moverHacia(Enemigo enemigo, Posicion objetivo){
-        Posicion actual = enemigo.getPosicion();
-        int dx = objetivo.getX() - actual.getX();
-        int dy = objetivo.getY() - actual.getY();
-
-        Direccion direccion = null;
-
-        if (Math.abs(dx) > Math.abs(dy)){
-            direccion = dx > 0 ? Direccion.DERECHA : Direccion.IZQUIERDA;
-        } else if (dy != 0) {
-            direccion = dy > 0 ? Direccion.ABAJO : Direccion.ARRIBA;
-        }
-
-        if (direccion != null){
-            Posicion nuevaPos = calcularNuevaPosicion(actual, direccion);
-            boolean movio = mapa.moverPersonaje(enemigo, nuevaPos);
-            if (movio) {
-                return nuevaPos;
+    /**
+     * Busca la primera celda de tipo SUELO en el mapa para ubicar al heroe.
+     * 
+     * @return Un array con la fila y columna de la posición inicial.
+     * @throws IllegalStateException Si no se encuentra una celda SUELO.
+     */
+    public int[] encontrarPosicionInicial() {
+        for (int fila = 0; fila < mapa.getAlto(); fila++) {
+            for (int columna = 0; columna < mapa.getAncho(); columna++) {
+                if (mapa.getCelda(fila, columna).getTipo() == TipoCelda.SUELO) {
+                    return new int[] { fila, columna };
+                }
             }
         }
-        return actual;
+        throw new IllegalStateException("No se encontró una celda para ubicar al heroe.");
     }
 
-    //Movimiento aleatorio para enemigo
-    private Posicion moverAleatorio(Enemigo enemigo) {
-        Direccion[] direcciones = Direccion.values();
-        for (int i = 0; i < direcciones.length; i++) {
-            Direccion direccion = direcciones[(int) (Math.random() * direcciones.length)];
-            Posicion nuevaPos = calcularNuevaPosicion(enemigo.getPosicion(), direccion);
-            if (mapa.moverPersonaje(enemigo, nuevaPos)) {
-                return nuevaPos;
+    /**
+     * Intenta mover al heroe a la posición indicada.
+     * Si hay un enemigo en la nueva posición, inicia un combate.
+     * Si la posición es válida y libre, mueve al heroe y a los enemigos.
+     * 
+     * @param nuevaFila    nuevaFila Nueva fila de destino.
+     * @param nuevaColumna nuevaColumna Nueva columna de destino.
+     */
+    public void moverHeroe(int nuevaFila, int nuevaColumna) {
+        if (esPosicionValida(nuevaFila, nuevaColumna)) {
+            // System.out.println("Nueva posición del héroe: (" + nuevaFila + ", " +
+            // nuevaColumna + ")");
+            int filaActual = heroe.getFila();
+            int columnaActual = heroe.getColumna();
+
+            if (nuevaFila < filaActual) {
+                heroe.setDireccion(Direccion.ARRIBA);
+            } else if (nuevaFila > filaActual) {
+                heroe.setDireccion(Direccion.ABAJO);
+            } else if (nuevaColumna < columnaActual) {
+                heroe.setDireccion(Direccion.IZQUIERDA);
+            } else if (nuevaColumna > columnaActual) {
+                heroe.setDireccion(Direccion.DERECHA);
+            }
+
+            if (hayEnemigoEnPosicion(nuevaFila, nuevaColumna)) {
+                iniciarCombate(nuevaFila, nuevaColumna);
+
+            } else {
+                heroe.setPosicion(nuevaFila, nuevaColumna);
+                Celda celdaTrampa = mapa.getCelda(nuevaFila, nuevaColumna);
+                //if (celdaTrampa.getTipo() == TipoCelda.MALDICION) {
+                    //heroe.disminuirMaldicion();
+                    // celdaTrampa.setTipo(TipoCelda.TRAMPA);
+                    // System.out.println("Recibir danio");
+                    if (heroe.getPuntosVida() <= 0) { //CAMBIAR EL 0 POR UNA CANTIDAD SÍ RECIBE DAÑO
+                        finalizarJuego();
+                    }
+                }
+                gestorEnemigos.moverEnemigos(heroe, mapa);
+                notifyObservers();
             }
         }
-        return enemigo.getPosicion();
-    }
+//    }
 
-    //Calcula nueva posición a partir de dirección
-   private Posicion calcularNuevaPosicion(Posicion posicion, Direccion direccion){
-    int x = posicion.getX();
-    int y = posicion.getY();
+    /**
+     * Verifica si hay un enemigo en la posición indicada.
+     * 
+     * @param fila    Fila a comprobar.
+     * @param columna Columna a comprobar.
+     * @return true si hay un enemigo en esa posición, false en caso contrario.
+     */
+    public boolean hayEnemigoEnPosicion(int fila, int columna) {
 
-    if (direccion == Direccion.ARRIBA){
-        y--;
-    }else if (direccion == Direccion.ABAJO){
-        y++;
-    }else if (direccion == Direccion.IZQUIERDA){
-        x--;
-    }else if (direccion == Direccion.DERECHA){
-        x++;
-    }
-
-    return new Posicion(x, y);
-}
-
-    //Distancia Manhattan entre dos posiciones
-    private int distanciaManhattan(Posicion a, Posicion b){
-        return Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() - b.getY());
-    }
-
-    //Verifica si el juego terminó
-    public boolean isJuegoTerminado(){
-        Heroe heroe = mapa.getHeroe();
-        if (heroe == null || !heroe.estaVivo()) return true;
-
-        //y sí no quedan enemigos vivos
-        for (Personaje p : mapa.getPosicionesPersonajes().values()){
-            if (p instanceof Enemigo && p.estaVivo()){
-                return false;
+        for (Enemigo enemigo : gestorEnemigos.getEnemigos()) {
+            if (enemigo.getFila() == fila && enemigo.getColumna() == columna) {
+                return true;
             }
+        }
+        return false;
+    }
+
+    /**
+     * Inicia un combate entre el heroe y el enemigo en la posición dada.
+     * Calcula el daño, actualiza los puntos de vida y elimina al enemigo si es
+     * derrotado.
+     * Finaliza el juego si el heroe muere.
+     * 
+     * @param fila    Fila donde ocurre el combate.
+     * @param columna Columna donde ocurre el combate.
+     */
+
+    public void iniciarCombate(int fila, int columna) {
+
+        for (Enemigo enemigo : new ArrayList<>(gestorEnemigos.getEnemigos())) {
+            if (enemigo.getFila() == fila && enemigo.getColumna() == columna) {
+                System.out.println("¡Combate entre " + heroe.getNombre() + " y " + enemigo.getNombre());
+
+                // Calcular el danio
+                heroe.CalcularPuntosVida(enemigo.calcularDanio());
+                enemigo.CalcularPuntosVida(heroe.calcularDanio());
+
+                // Mostrar resultados
+                System.out.println(heroe.getNombre() + " tiene " + heroe.getPuntosVida() + "de vida");
+                System.out.println(enemigo.getNombre() + "tiene" + enemigo.getPuntosVida() + "de vida ");
+
+                // se verificara sí el enemigo ha perdido
+                if (!enemigo.estaVivo()) {
+                    System.out.println(enemigo.getNombre() + " ha sido derrotado ");
+                    gestorEnemigos.eliminarEnemigo(enemigo);
+
+                }
+                // se verificara sí el heroe ha perdido
+                if (!heroe.estaVivo()) {
+                    System.out.println("El héroe ha muerto. Fin del juego");
+                    finalizarJuego();
+                }
+                notifyObservers();
+            }
+        }
+    }
+
+    /**
+     * Finaliza el juego mostrando una alerta y cerrando la aplicación.
+     */
+    public void finalizarJuego() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game Over");
+        alert.setHeaderText(null);
+        alert.setContentText("Fin de la partida ¡Perdiste!");
+        alert.showAndWait();
+        Platform.exit();
+    }
+
+    /**
+     * Verifica si la posición indicada es válida para el heroe (dentro de los
+     * límites y no es muro).
+     * 
+     * @param fila    Fila a comprobar.
+     * @param columna Columna a comprobar.
+     * @return true si la posición es válida, false en caso contrario.
+     */
+
+    private boolean esPosicionValida(int fila, int columna) {
+
+        if (fila < 0 || fila >= mapa.getAlto() || columna < 0 || columna >= mapa.getAncho()) {
+            System.out.println("Posición fuera de los límites: (" + fila + ", " + columna + ")");
+            return false; // Fuera de los límites
+        }
+        Celda celda = mapa.getCelda(fila, columna);
+        if (celda.getTipo() == TipoCelda.MURO) {
+            System.out.println("Celda actual: " + celda.getTipo());
+            return false; // Si la celda es una muro
         }
         return true;
-        
+
+    }
+
+    /**
+     * Devuelve el lector de escenario (mapa) actual.
+     * 
+     * @return LectorEscenario utilizado en el juego.
+     */
+    public LectoraMapa getMapa() {
+        return mapa;
+    }
+
+    /**
+     * Devuelve el gestor de enemigos actual.
+     * 
+     * @return GestorEnemigo utilizado en el juego.
+     */
+    public GestorEnemigos getGestorEnemigo() {
+        return gestorEnemigos;
+    }
+
+    /**
+     * Añade un observador para recibir notificaciones de cambios en el juego.
+     * 
+     * @param o Observador a añadir.
+     */
+    public void addObserver(Observer o) {
+        observadores.add(o);
+    }
+
+    /**
+     * Notifica a todos los observadores registrados sobre un cambio en el estado
+     * del juego.
+     */
+    private void notifyObservers() {
+        for (Observer o : observadores) {
+            o.onChange();
+        }
     }
 }

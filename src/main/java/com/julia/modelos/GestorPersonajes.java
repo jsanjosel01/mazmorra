@@ -1,82 +1,60 @@
 package com.julia.modelos;
 
-import java.util.ArrayList;
-import java.util.List;
-import com.julia.modelos.Personaje;
-import com.julia.modelos.Mapa;
-import com.julia.interfaces.Observador;
+import java.util.HashMap;
+import java.util.Map;
 
+import javafx.scene.image.Image; //IMAGENES
+/**
+ * Clase utilitaria para gestionar la carga y caché de imágenes en el juego.
+ * Permite optimizar el rendimiento evitando cargar varias veces la misma imagen.
+ */
 
 public class GestorPersonajes{
-    private List<Personaje> personajes;
-    private List<Observador> observers;
+     /**
+     * Mapa estático que almacena las imágenes ya cargadas para reutilizarlas
+     */
+    private static final Map<String, Image> cache = new HashMap<>();
 
-    public GestorPersonajes(){
-        personajes = new ArrayList<>();
-        observers = new ArrayList<>();
-    }
-
-    public void subscribe(Observador observer){
-        if (!observers.contains(observer)){
-            observers.add(observer);
-        }
-    }
-   
-    public void unsubscribe(Observador observer){
-        observers.remove(observer);
-    }
-
-    private void notifyObservers() {
-        for (Observador observer : observers){
-            observer.actualizar();
-        }
-    }
-
-    //Añadir personaje
-    public void insertarPersonaje(Personaje p){
-        personajes.add(p);
-        notifyObservers();
-    }
-
-    //Eliminar personaje
-    public void eliminarPersonaje(Personaje p){
-        personajes.remove(p);
-        notifyObservers();
-    }
-
-    //Obtener lista de personajes
-    public List<Personaje> getPersonajes(){
-        return personajes;
-    }
-
-    //Buscar personaje por nombre
-    public Personaje buscarPorNombre(String nombre){
-        for (Personaje p : personajes) {
-            if (p.getNombre() != null && p.getNombre().equalsIgnoreCase(nombre)){
-                return p;
+    /**
+     * Carga una imagen desde la ruta especificada y la almacena en caché para futuros usos.
+     * Si la imagen ya fue cargada previamente, la devuelve directamente desde la caché.
+     * @param ruta Ruta relativa del recurso de imagen
+     * @return La imagen cargada o null si no se pudo cargar.
+     */
+    public static Image getImagen(String ruta) {
+        if (!cache.containsKey(ruta)) {
+            try {
+                Image imagen = new Image(GestorPersonajes.class.getResourceAsStream(ruta));
+                cache.put(ruta, imagen);
+            } catch (Exception e) {
+                System.err.println("No se pudo cargar la imagen: " + ruta);
             }
         }
-        return null;
+        return cache.get(ruta);
     }
 
-   //Realizar los turnos, se ordenara el personaje por velocidad descendente
-    public void realizarTurnos(Mapa mapa){
-        personajes.sort((p1, p2) -> Integer.compare(p2.getVelocidad(), p1.getVelocidad()));
+    /**
+     * Ruta de la imagen del heroe mirando hacia arriba, abajo, izquierda, derecha
+     */
+    public static final String PROTA_ARRIBA = "/com/julia/imagenes/imagenes/prota_espalda.png";
+    public static final String PROTA_ABAJO = "/com/julia/imagenes/imagenes/prota_delante.png";
+    public static final String PROTA_IZQUIERDA = "/com/julia/imagenes/imagenes/prota_izquierda.png";
+    public static final String PROTA_DERECHA = "/com/julia/imagenes/imagenes/prota_derecha.png";
+    /**
+     * Ruta de la imagen del enemigo mirando hacia delante.
+     */
+    public static final String ENE_ABAJO = "/com/julia/imagenes/imagenes/goblin_delante.png";
+    /**
+     * Ruta de la imagen de la celda de pared y muro.
+     */
+    public static final String SUELO = "/com/julia/imagenes/imagenes/Escenario.png";
+    public static final String MURO = "/com/julia/imagenes/imagenes/muro.jpg";
 
-        for (Personaje p : personajes){
-            p.realizarTurno(mapa);
-            notifyObservers();
-        }
-    }
+    //TRAMPA
+    //public static final String TRAMPA = "/com/julia/imagenes/imagenes/trampa.jpg";
 
-    //Mostrar
-    @Override
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        for (Personaje p : personajes) {
-            sb.append(p.toString()).append("\n");
-        }
-        return sb.toString();
-    }
+    //MALDICION
+    //public static final String MALDICION = "/com/julia/imagenes/imagenes/maldicion.jpg";
 
+    
 }
