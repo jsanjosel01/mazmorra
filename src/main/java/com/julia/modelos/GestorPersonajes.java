@@ -56,5 +56,7 @@ public class GestorPersonajes{
     //MALDICION
     //public static final String MALDICION = "/com/julia/imagenes/imagenes/maldicion.jpg";
 
-    
+    //TELETRANSPORTE
+    public static final String TELE = "/com/julia/imagenes/imagenes/tele.jpg";
+
 }

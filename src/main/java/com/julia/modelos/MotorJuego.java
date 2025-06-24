@@ -3,9 +3,12 @@ package com.julia.modelos;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import com.julia.interfaces.Observer;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.RadioMenuItem;
 
 public class MotorJuego { //CAMBIOS EN EL JUEGO
     /**
@@ -80,6 +83,7 @@ public class MotorJuego { //CAMBIOS EN EL JUEGO
             // nuevaColumna + ")");
             int filaActual = heroe.getFila();
             int columnaActual = heroe.getColumna();
+            
 
             if (nuevaFila < filaActual) {
                 heroe.setDireccion(Direccion.ARRIBA);
@@ -91,12 +95,21 @@ public class MotorJuego { //CAMBIOS EN EL JUEGO
                 heroe.setDireccion(Direccion.DERECHA);
             }
 
-            if (hayEnemigoEnPosicion(nuevaFila, nuevaColumna)) {
+            if (mapa.getCelda(filaActual, columnaActual).getTipo()==TipoCelda.TELE){      //COMPROBACION DE TELETRANSPORTE
+                 //heroe.setPosicion(nuevaFila, nuevaColumna);
+             System.out.println("teletransportandoseee");
+             int teleFila = new Random().nextInt(mapa.getAlto());
+             int teleColumna = new Random().nextInt(mapa.getAncho());
+             heroe.setPosicion(teleFila, teleColumna);
+             }
+            else if (hayEnemigoEnPosicion(nuevaFila, nuevaColumna)) {
                 iniciarCombate(nuevaFila, nuevaColumna);
+
 
             } else {
                 heroe.setPosicion(nuevaFila, nuevaColumna);
                 Celda celdaTrampa = mapa.getCelda(nuevaFila, nuevaColumna);
+                
                 //if (celdaTrampa.getTipo() == TipoCelda.MALDICION) {
                     //heroe.disminuirMaldicion();
                     // celdaTrampa.setTipo(TipoCelda.TRAMPA);
@@ -239,5 +252,20 @@ public class MotorJuego { //CAMBIOS EN EL JUEGO
         for (Observer o : observadores) {
             o.onChange();
         }
+    }
+
+    //TELETRANSPORTE 
+    public boolean teletransporte (int fila, int columna){
+      if (fila < 2 || fila >= mapa.getAlto() || columna < 2 || columna >= mapa.getAncho()) {
+            System.out.println("Posición fuera de los límites: (" + fila + ", " + columna + ")");
+            return false; // Fuera de los límites
+        }
+        Celda celda = mapa.getCelda(fila, columna);
+        if (celda.getTipo() == TipoCelda.SUELO) {
+            System.out.println("Celda actual: " + celda.getTipo());
+            return false; 
+        }
+        return true;
+        
     }
 }

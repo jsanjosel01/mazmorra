@@ -70,11 +70,10 @@ public class LectoraMapa { //MAPA
                         case '#':
                             tipo = TipoCelda.MURO;
                             break;
-                        //case '?': tipo = TipoCelda.TRAMPA; 
+                        //case 'T': tipo = TipoCelda.TRAMPA; 
                             //break;
-                        //case '!': tipo = TipoCelda.MALDICION; 
-                            //break;
-                            
+                        case '!': tipo = TipoCelda.TELE; //MALDICION 
+                            break;
                         default:
                             throw new IllegalArgumentException("Símbolo no reconocido: " + simbolo);
                     }

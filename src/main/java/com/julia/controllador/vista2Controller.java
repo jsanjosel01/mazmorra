@@ -46,7 +46,8 @@ public class vista2Controller implements Observer {
 
     //IMAGEN DE LA TRAMPA Y MALDICION
     //private Image imgTrampa;
-    //private Image imgMaldicion;
+    private Image imgTele;
+    
 
      /**
      * Contenedor principal horizontal para la vista2, donde se colocan la cuadrícula y paneles de información.
@@ -116,6 +117,7 @@ public class vista2Controller implements Observer {
 
             //imgTrampa = GestorPersonajes.getImagen(GestorPersonajes.TRAMPA);
             //imgMaldicion =GestorPersonajes.getImagen(GestorPersonajes.MALDICION);
+            imgTele =GestorPersonajes.getImagen(GestorPersonajes.TELE);
 
             motorJuego.addObserver(this);
             mainGridPane = new GridPane();
@@ -305,9 +307,9 @@ public class vista2Controller implements Observer {
                     case MURO:
                         celdaImageView = new ImageView(imgMuro);
                         break;
-                    //case MALDICION: //TRAMPA
-                        //celdaImageView = new ImageView(imgMaldicion);
-                        //break;
+                    case TELE: //TRAMPA MALDICION
+                        celdaImageView = new ImageView(imgTele);
+                        break;
                     default:
                         continue;
                 }

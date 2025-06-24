@@ -6,7 +6,7 @@ package com.julia.modelos;
  */
 
 public class Celda {
-     private TipoCelda tipo;
+    private TipoCelda tipo;
     private boolean ocupado;
 
 /**
